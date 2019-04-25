@@ -1137,4 +1137,110 @@ public class DBservices
         string cmdStr = "DELETE FROM Customer1  WHERE project_name='" + custID + "'";
         return cmdStr;
     }
+
+    //Insert project to DB
+    public int insertProject(Project proj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String pStr = BuildInsertProjCommand(proj);      // helper method to build the insert string
+
+        cmd = CreateCommand(pStr, con);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    private String BuildInsertProjCommand(Project proj)
+    {
+        String command;
+
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        sb.AppendFormat("Values('{0}', '{1}')", proj.project_name, proj.customer_name);
+        String prefix = "INSERT INTO ProjectsTbl " + "(project_name, customer_name) ";
+
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    //Get projects from DB
+    public List<Project> GetProjects()
+    {
+        SqlConnection con;
+        List<Project> ProjectsList = new List<Project>();
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        }
+
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        try
+        {
+            String selectSTR = "SELECT * FROM ProjectsTbl ";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+             // read first field from the row into the list collection
+                Project project = new Project();
+                project.project_name = Convert.ToString(dr["project_name"]);
+                //project.create_date = Convert.ToDateTime(dr["create_date"]);
+                //project.description = Convert.ToString(dr["description"]);
+                //project.cost = Convert.ToInt32(dr["cost"]);
+                //project.status = Convert.ToInt32(dr["status"]);
+                project.customer_name = Convert.ToString(dr["customer_name"]);
+
+                ProjectsList.Add(project);
+            }
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        return ProjectsList;
+    }
 }

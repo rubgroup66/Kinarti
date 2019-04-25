@@ -171,11 +171,13 @@
     <Compile Include="Controllers\FacadeController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\SupervisorController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Supervisor.cs" />
     <Compile Include="Models\Architect.cs" />
@@ -215,6 +217,7 @@
     <Content Include="PriceIT\editMaterials.html" />
     <Content Include="PriceIT\old\insert.html" />
     <Content Include="PriceIT\insertMaterial.html" />
+    <Content Include="PriceIT\project.html" />
     <Content Include="PriceIT\projectsList.html" />
     <Content Include="PriceIT\old\viewProjects.html" />
     <Content Include="Scripts\ajaxCalls.js" />

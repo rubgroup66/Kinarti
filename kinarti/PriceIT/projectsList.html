@@ -16,6 +16,15 @@
         button {
             margin-left: 10px;
         }
+        img {
+            
+            
+        }
+
+        hover span {
+            display: block;
+        }
+
     </style>
 
 
@@ -30,28 +39,36 @@
     <script>
         $(document).ready(function () {
             // once the document is ready we fetch a list of customers from the server
-            ajaxCall("GET", "../api/Customers", "", successGetCustomers, errorGetCustomers);
+            ajaxCall("GET", "../api/proj", "", successGetProj, errorGetProj);
 
 
             
         });
 
-        function successGetCustomers(data) {
+        function successGetProj(data) {
             $('#projects_table').DataTable({
                 data: data,
                 "autoWidth": false,
                 columns: [
+                    {
+                        data: "status",
+                        render: function (data, type, row, meta) {
+                            status = "";
+                            if (data == 1) {
+                                status = '<img title="Completed" src="https://img.icons8.com/office/16/000000/spinner-frame-7.png" />'
+                            } else status = '<img title="In progress" src="https://img.icons8.com/office/16/000000/spinner-frame-7.png"/>'
+                            return status;
+                        }
+                    },
                     { data: "project_name" },
-                    { data: "first_name" },
-                    { data: "last_name" },
-                    { data: "phone_num" },
-                    { data: "email" },
-                    { data: "supervisor" },
-                    { data: "architect"},
+                    { data: "customer_name" },
+                    { data: "description" },
+                    { data: "create_date" },
+                    { data: "cost" },
                 ]
             })
         }
-        function errorGetCustomers(err) {
+        function errorGetProj(err) {
             swal("Error getting customers");
         }
 
@@ -64,8 +81,9 @@
                 <a class="navbar-brand" href="#">PriceIT</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="new_customer.html">פרויקט חדש</a></li>
-                <li class="active"><a href="projects_show.html">פרויקטים</a></li>
+                <li><a href="newCustomer.html">פרויקט חדש</a></li>
+                <li class="active"><a href="projectsList.html">פרויקטים</a></li>
+                <li><a href="CustomerShow.html">לקוחות</a></li>
             </ul>
         </div>
     </nav>
@@ -77,12 +95,12 @@
                 <thead>
                     <tr>
 
-                        <th>שם פרויקט </th>
-                        <th> שם פרטי</th>
-                        <th>שם משפחה</th>
-                        <th>מספר טלפון</th>
-                        <th>מפקח</th>
-                        <th>אדריכל</th>
+                        <th>סטטוס </th>
+                        <th> שם פרויקט</th>
+                        <th>שם לקוח</th>
+                        <th> תיאור</th>
+                        <th>תאריך יצירה</th>
+                        <th>מחיר</th>
 
 
                     </tr>

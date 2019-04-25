@@ -39,7 +39,12 @@
                 supervisor: $("#supervisor").val(),
                 architect: $("#architect").val()
             }
+            project = {
+                project_name: $("#project_name").val(),
+                customer_name: $("#first_name").val()
+            }
             ajaxCall("POST", "../api/cust", JSON.stringify(Customer), success, error);
+            ajaxCall("POST", "../api/Proj", JSON.stringify(project), success, errorPostProj);
 
         }
 
@@ -59,12 +64,39 @@
             }
         }
 
+        function errorPostProj(err) {
+            swal("error posting project");
+        }
+
         function errorGetArchitect(err) {
             swal("Error in getting architect");
         }
 
         function success(data) {
-            swal("Added Successfuly!", "", "success");
+            swal({ // this will open a dialouge
+                title: "Customer added successfully",
+                text: "Creat new project?",
+                icon: "info",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (create) {
+                    if (create) {
+                        var proj_name = $("#project_name").val()
+                        localStorage.setItem("storageProj_name", proj_name);
+                        OpenNewProject();
+                        
+                    } 
+                    else swal("Customer saved!");
+                    
+                });
+            //swal("Added Successfuly!", "", "success");
+        }
+
+        function OpenNewProject() {
+            window.location.href = "project.html";
+            InsertProject();
+
         }
 
         function error(err) {
@@ -76,6 +108,8 @@
             return false; // the return false will prevent the form from being submitted
             // hence the page will not reload
         }
+
+        
 
     </script>
 
@@ -89,6 +123,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="newCustomer.html">פרויקט חדש</a></li>
+                <li><a href="projectsList.html">פרויקטים</a></li>
                 <li><a href="CustomerShow.html">לקוחות</a></li>
             </ul>
         </div>
