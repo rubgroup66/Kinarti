@@ -38,19 +38,21 @@
            
         function ShowInfo() {
             $("#info").show();
+            
         }
 
-        function CreateBox() {
-            window.location.href = "insertBox.html";
 
-        }
-
+        //לשלוף שם פרויקט
         var proj_name = localStorage.getItem("storageProj_name");
-        console.log(proj_name);
         function getName() {
             document.getElementById("project_name").innerHTML = proj_name;
         }
-        
+        //שמור שם ארגזת
+        function createBox() {
+            var box_name = $("#box_name").val()
+            localStorage.setItem("storageBox_name", box_name);
+            parent.location = 'insertItem.html';
+        }
         
 
         
@@ -65,6 +67,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="newCustomer.html">פרויקט חדש</a></li>
+                <li><a href="projectsList.html">פרויקטים</a></li>
                 <li><a href="CustomerShow.html">לקוחות</a></li>
             </ul>
         </div>
@@ -78,7 +81,7 @@
     <!-------------------------------------->
 
     <div>
-        <button class="btn btn-info" onclick="ShowInfo()"> + צור ארגזת</button>
+        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת</button>
     </div>
 
     
@@ -88,13 +91,13 @@
 
                     <div class="form-group col-sm-3">
                         <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
-                        <input type="text" class="form-control" id="box_name" placeholder="Enter the model name" required>
+                        <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
                     </div>
 
                 </div>
 
-                <button class="btn btn-primary btn-lg" onclick="CreateBox()">Save</button>
-
+                
+                <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
             </form>
         </div>
 

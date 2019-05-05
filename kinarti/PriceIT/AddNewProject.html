@@ -29,22 +29,15 @@
             $('#architect :selected').each(function () {
                 selected.push($(this).val());
             });
-
-            Customer = { // Note that the name of the fields must be identical to the names of the properties of the object in the server
+            var custID = localStorage.getItem("storageCust_id");
+            project = {
                 project_name: $("#project_name").val(),
-                first_name: $("#first_name").val(),
-                last_name: $("#last_name").val(),
-                phone_num: $("#phone_num").val(),
-                email: $("#email").val(),
+                create_date: $("#create_date").val(),
+                customer_id: custID,
+                description: $("#description").val(),
                 supervisor: $("#supervisor").val(),
                 architect: $("#architect").val()
             }
-            project = {
-                project_name: $("#project_name").val(),
-                customer_name: $("#first_name").val(),
-                description: $("#description").val()
-            }
-            ajaxCall("POST", "../api/cust", JSON.stringify(Customer), success, error);
             ajaxCall("POST", "../api/Proj", JSON.stringify(project), success, errorPostProj);
 
         }
@@ -74,24 +67,9 @@
         }
 
         function success(data) {
-            swal({ // this will open a dialouge
-                title: "Customer added successfully",
-                text: "Creat new project?",
-                icon: "info",
-                buttons: true,
-                dangerMode: true
-            })
-                .then(function (create) {
-                    if (create) {
-                        var proj_name = $("#project_name").val()
-                        localStorage.setItem("storageProj_name", proj_name);
-                        OpenNewProject();
-                        
-                    } 
-                    else swal("Customer saved!");
-                    
-                });
-           
+
+            swal("Customer saved!");
+            window.location.href = "projectsList.html";
         }
 
         function OpenNewProject() {
@@ -110,12 +88,22 @@
             // hence the page will not reload
         }
 
+        function fillInfo() {
+            
+            var first_name = localStorage.getItem("storageF_name");
+            $("#first_name").val(first_name);
+            var last_name = localStorage.getItem("storageL_name");
+            $("#last_name").val(last_name);
+            document.getElementById("first_name").disabled = true;
+            document.getElementById("last_name").disabled = true;
+
+        }
         
 
     </script>
 
 </head>
-<body>
+<body onload="fillInfo()">
 
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -137,6 +125,14 @@
         <form id="pForm">
             <h2>צור פרויקט חדש</h2>
             <div class="form-group">
+                <label for="first_name">שם פרטי</label>
+                <input type="text" class="form-control" id="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">שם משפחה</label>
+                <input type="text" class="form-control" id="last_name" placeholder="הכנס שם משפחה" required>
+            </div>
+            <div class="form-group">
                 <label for="project_name">שם פרויקט</label>
                 <input type="text" class="form-control" id="project_name" placeholder="הכנס שם פרויקט ייחודי" required>
             </div>
@@ -145,20 +141,8 @@
                 <input type="text" class="form-control" id="description" placeholder="הזן תיאור לפרויקט" required>
             </div>
             <div class="form-group">
-                <label for="first_name">שם פרטי</label>
-                <input type="text" class="form-control" id="first_name" placeholder="הכנס שם פרטי" required>
-            </div>
-            <div class="form-group">
-                <label for="last_name">שם משפחה</label>
-                <input type="text" class="form-control" id="last_name" placeholder="הכנס שם משפחה" required>
-            </div>
-            <div class="form-group">
-                <label for="phone_num">מספר טלפון</label>
-                <input type="text" class="form-control" id="phone_num" placeholder="הכנס מספר טלפון" required>
-            </div>
-            <div class="form-group">
-                <label for="email">כתובת דואר אלקטרוני</label>
-                <input type="email" class="form-control" id="email" placeholder="הכנס כתובת דואר אלקטרוני">
+                <label for="create_date"> תאריך יצירה</label>
+                <input type="date" class="form-control" id="create_date" required>
             </div>
             <div class="form-group" style="width:auto">
                 <label for="supervisor">מפקח</label>

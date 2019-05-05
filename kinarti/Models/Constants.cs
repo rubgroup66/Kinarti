@@ -33,9 +33,10 @@ namespace kinarti.Models
         public List<Constants> getConstants()
         {
             DBservices dbs = new DBservices();
-            List<Constants> lp = dbs.getConstants("PriceITConnectionString", "constantParametersCostTbl");
+            List<Constants> lp = dbs.getConstants("PriceITConnectionString", "parametersTbl");
             return lp;
         }
+        
 
         public int updateConstants()
         {

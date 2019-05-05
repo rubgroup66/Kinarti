@@ -161,6 +161,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\NewCustomerController.cs" />
+    <Compile Include="Controllers\FacadeMaterialController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ArchitectController.cs" />
     <Compile Include="Controllers\ConstantsController.cs" />
     <Compile Include="Controllers\HandleController.cs" />
@@ -177,6 +180,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\FacedeMaterial.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Supervisor.cs" />
@@ -203,9 +208,14 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="PriceIT\AddNewProject.html" />
+    <Content Include="PriceIT\ShowCustomers.html" />
     <Content Include="PriceIT\insertBox.html" />
     <Content Include="PriceIT\editConstants2.html" />
     <Content Include="PriceIT\CustomerShow.html" />
+    <Content Include="PriceIT\insertItem.html" />
+    <Content Include="PriceIT\.html" />
+    <Content Include="PriceIT\CreateNewCustomer.html" />
     <Content Include="PriceIT\newCustomer.html" />
     <Content Include="PriceIT\old\editConstants.html" />
     <Content Include="PriceIT\editHandles.html" />

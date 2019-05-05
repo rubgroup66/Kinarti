@@ -14,23 +14,19 @@ namespace kinarti.Models
 {
     public class Customer
     {
-        public string project_name { get; set; }
+        public int id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string phone_num { get; set; }
         public string email { get; set; }
-        public string supervisor { get; set; }
-        public string architect { get; set; }
 
-        public Customer(string _project_name, string _first_name, string _last_name, string _phone_num, string _email, string _supervisor, string _architect)
+        public Customer( int _id, string _first_name, string _last_name, string _phone_num, string _email)
         {
-            project_name = project_name;
+            id = _id;
             first_name = _first_name;
             last_name = _last_name;
             phone_num = _phone_num;
             email = _email;
-            supervisor = _supervisor;
-            architect = _architect;
         }
 
         public Customer()
@@ -38,10 +34,10 @@ namespace kinarti.Models
 
         }
 
-        public int insert()
+        public int insertCust()
         {
             DBservices dbs = new DBservices();
-            int numAffected = dbs.insert(this);
+            int numAffected = dbs.insertCust(this);
             return numAffected;
         }
 

@@ -546,7 +546,7 @@ public class DBservices
             {// Read till the end of the data into a row
                 // read first field from the row into the list collection
                 Constants constants = new Constants();
-                constants.constantName = Convert.ToString(dr["constantName"]);
+                constants.constantName = Convert.ToString(dr["name"]);
                 constants.ID = Convert.ToInt32(dr["id"]);
                 constants.Cost = Convert.ToInt32(dr["cost"]);
 
@@ -921,8 +921,8 @@ public class DBservices
 
     }
 
-    //Upload customer from DB
-    public int insert(Customer cust)
+    //Insert customer to DB
+    public int insertCust(Customer cust)
     {
 
         SqlConnection con;
@@ -970,13 +970,13 @@ public class DBservices
         String command;
 
 
-        StringBuilder sb = new StringBuilder();
+        
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}' ,'{2}', '{3}', '{4}','{5}',{6})", cust.project_name, cust.first_name, cust.last_name, cust.phone_num, cust.email, cust.supervisor, cust.architect);
-        String prefix = "INSERT INTO Customer1 " + "(project_name, first_name, last_name, phone_num, email,sup_name,arc_name) ";
-
-        command = prefix + sb.ToString();
-
+        StringBuilder sb = new StringBuilder(); // use a string builder to create the dynamic string
+        sb.AppendFormat("Values('{0}', '{1}' , '{2}', '{3}')", cust.first_name, cust.last_name, cust.phone_num,cust.email);
+        String prefix = "INSERT INTO Customer2 " + "(first_name, last_name, phone_number, email) ";
+        //command = prefix + sbItem.ToString();
+        command = prefix + sb.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
         return command;
     }
 
@@ -999,7 +999,7 @@ public class DBservices
 
         try
         {
-            String selectSTR = "SELECT * FROM Customer1 ";
+            String selectSTR = "SELECT * FROM Customer2 ";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -1009,13 +1009,12 @@ public class DBservices
             {// Read till the end of the data into a row
              // read first field from the row into the list collection
                 Customer customer = new Customer();
-                customer.project_name = Convert.ToString(dr["project_name"]);
+                customer.id = Convert.ToInt32(dr["id"]);
                 customer.first_name = Convert.ToString(dr["first_name"]);
                 customer.last_name = Convert.ToString(dr["last_name"]);
-                customer.phone_num = Convert.ToString(dr["phone_num"]);
+                customer.phone_num = Convert.ToString(dr["phone_number"]);
                 customer.email = Convert.ToString(dr["email"]);
-                customer.supervisor = Convert.ToString(dr["sup_name"]);
-                customer.architect = Convert.ToString(dr["arc_name"]);
+
 
                 CustomersList.Add(customer);
             }
@@ -1078,7 +1077,7 @@ public class DBservices
     }
     private string BuildUpdateCustomer(Customer c)
     {
-        string v = "UPDATE Customer1 SET first_name='" + c.first_name + "' ,last_name='" + c.last_name + "' ,phone_num='" + c.phone_num + "' ,email='" + c.email + "' ,sup_name='" + c.supervisor + "' ,arc_name='" + c.architect + "' WHERE project_name='" + c.project_name + "'";
+        string v = "UPDATE Customer2 SET first_name='" + c.first_name + "' ,last_name='" + c.last_name + "' ,phone_number='" + c.phone_num + "' ,email='" + c.email + "' WHERE id='" + c.id + "'";
         string cmdStr = v;
         return cmdStr;
 
@@ -1134,7 +1133,7 @@ public class DBservices
     }
     private string BuildDeleteCust(string custID)
     {
-        string cmdStr = "DELETE FROM Customer1  WHERE project_name='" + custID + "'";
+        string cmdStr = "DELETE FROM Customer2  WHERE id='" + custID + "'";
         return cmdStr;
     }
 
@@ -1189,10 +1188,10 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}')", proj.project_name, proj.customer_name);
-        String prefix = "INSERT INTO ProjectsTbl " + "(project_name, customer_name) ";
+        sb.AppendFormat("Values('{0}', '{1}', '{2}', '{3}', '{4}')", proj.project_name, proj.description , proj.architect, proj.supervisor , proj.customer_id );
+        String prefix = "INSERT INTO Project2 " + "(project_name, description, architect, supervisor, custID ) ";
 
-        command = prefix + sb.ToString();
+        command = prefix + sb.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
 
         return command;
     }
@@ -1216,7 +1215,7 @@ public class DBservices
 
         try
         {
-            String selectSTR = "SELECT * FROM ProjectsTbl ";
+            String selectSTR = "SELECT * FROM Project2 ";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -1228,10 +1227,10 @@ public class DBservices
                 Project project = new Project();
                 project.project_name = Convert.ToString(dr["project_name"]);
                 //project.create_date = Convert.ToDateTime(dr["create_date"]);
-                //project.description = Convert.ToString(dr["description"]);
+                project.description = Convert.ToString(dr["description"]);
                 //project.cost = Convert.ToInt32(dr["cost"]);
                 //project.status = Convert.ToInt32(dr["status"]);
-                project.customer_name = Convert.ToString(dr["customer_name"]);
+                project.customer_id = Convert.ToInt32(dr["custID"]);
 
                 ProjectsList.Add(project);
             }
@@ -1243,4 +1242,153 @@ public class DBservices
         }
         return ProjectsList;
     }
+
+    //חדש יבגני
+
+    public int insertItem(Item item)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        String cStr = BuildInsertItemCommand(item);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertItemCommand(Item item)
+    {
+        String command;
+
+        StringBuilder sbItem = new StringBuilder(); // use a string builder to create the dynamic string
+        sbItem.AppendFormat("Values({0}, {1} ,{2})", item.ProjectID, item.Type, item.Cost);
+        String prefix = "INSERT INTO itemTbl " + "(projectID, type, cost) ";
+        //command = prefix + sbItem.ToString();
+        command = prefix + sbItem.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
+        return command;
+    }
+
+
+
+    //update edited user in system
+    public int updateItem(Item item, int Id)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        //SqlCommand cmd1;
+        //SqlCommand cmd2;
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            throw (ex);          // write to log
+        }
+        // String cStrDelete = BuildDeleteHobbiesCommand(Id);
+        //cmd2 = CreateCommand(cStrDelete, con);
+        //int numEffected2 = (int)cmd2.ExecuteNonQuery();
+        String cStr = BuildUpdateCommand(item, Id);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+        try
+        {
+            int numEffected = (int)cmd.ExecuteNonQuery(); // execute the command
+            //for (int i = 0; i < person.Hobbies.Length; i++)
+            //{
+            //    String cStrInsertHobbies = BuildInsertHobbiesForUsersCommand(Id, person.Hobbies[i]);
+            //    cmd1 = CreateCommand(cStrInsertHobbies, con);
+            //    int numEffected1 = cmd1.ExecuteNonQuery();
+            //}
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            throw (ex);       // write to log
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();        // close the db connection
+            }
+        }
+    }
+
+    private string BuildUpdateCommand(Item p, int id)
+    {
+        //String command;
+        string prefix = "UPDATE itemTbl SET projectID = '" + p.ProjectID + "', type = '" + p.Type + "', cost = '" + p.Cost + "' WHERE id=" + id;
+        return prefix;
+    }
+
+
+    public List<FacadeMaterial> getFacadeMaterials(string conString, string tableName)
+    {
+        SqlConnection con = null;
+        List<FacadeMaterial> lm = new List<FacadeMaterial>();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * FROM " + tableName;
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                FacadeMaterial m = new FacadeMaterial();
+                m.ID = Convert.ToInt32(dr["id"]);
+                m.Name = Convert.ToString(dr["name"]);
+                m.Cost = Convert.ToInt32(dr["cost"]);
+
+                lm.Add(m);
+            }
+            return lm;
+        }
+        catch (Exception ex)
+        {
+            throw (ex); // write to log
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
 }

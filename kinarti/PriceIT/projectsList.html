@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DataTable Example</title>
+    <title>PriceIT</title>
 
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
@@ -24,7 +24,7 @@
         hover span {
             display: block;
         }
-
+        
     </style>
 
 
@@ -51,6 +51,14 @@
                 "autoWidth": false,
                 columns: [
                     {
+                        render: function (data, type, row, meta) {
+                            let dataCust = "data-custId='" + row.id + "'";
+
+                            EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
+                            return EditProjBtn;
+                        }
+                    },
+                    {
                         data: "status",
                         render: function (data, type, row, meta) {
                             status = "";
@@ -61,7 +69,7 @@
                         }
                     },
                     { data: "project_name" },
-                    { data: "customer_name" },
+                    { data: "customer_id" },
                     { data: "description" },
                     { data: "create_date" },
                     { data: "cost" },
@@ -72,18 +80,23 @@
             swal("Error getting customers");
         }
 
+        $(document).on("click", ".EditProjBtn", function () {
+
+            parent.location = 'project.html';
+
+        });
+
     </script>
 </head>
 <body>
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div class="container-fluid" >
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">PriceIT</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="newCustomer.html">פרויקט חדש</a></li>
                 <li class="active"><a href="projectsList.html">פרויקטים</a></li>
-                <li><a href="CustomerShow.html">לקוחות</a></li>
+                <li><a href="ShowCustomers.html">לקוחות</a></li>
             </ul>
         </div>
     </nav>
@@ -94,10 +107,10 @@
             <table id="projects_table" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
-
+                        <th>פעולות </th>
                         <th>סטטוס </th>
                         <th> שם פרויקט</th>
-                        <th>שם לקוח</th>
+                        <th>מזהה לקוח</th>
                         <th> תיאור</th>
                         <th>תאריך יצירה</th>
                         <th>מחיר</th>

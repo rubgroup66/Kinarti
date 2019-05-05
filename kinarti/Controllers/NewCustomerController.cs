@@ -13,19 +13,19 @@ using System.Web.Hosting;
 namespace kinarti.Controllers
 {
 
-    public class CustomerController : ApiController
+    public class NewCustomerController : ApiController
     {
 
         // POST api/values
         //public void Post([FromBody]string value)
-        [Route("api/cust")]
+        [Route("api/newCust")]
         public void Post([FromBody]Customer cust)
         {
             cust.insertCust();
         }
 
         [HttpGet]
-        [Route("api/getCust")]
+        [Route("api/customers")]
         public IEnumerable<Customer> Get()
         {
             Customer cust = new Customer();
@@ -34,7 +34,7 @@ namespace kinarti.Controllers
         }
 
         [HttpPut]
-        [Route("api/putcust")]
+        [Route("api/customers")]
         public Customer Put(Customer c)
         {
             Customer cust = new Customer();
@@ -43,10 +43,10 @@ namespace kinarti.Controllers
         }
 
         [HttpDelete]
-        [Route("api/customers/{project_name}")]
-        public void Delete(string project_name)
+        [Route("api/deleteCust/{id}")]
+        public void Delete(string id)
         {
-            string custID = project_name;
+            string custID = id;
             Customer cust = new Customer();
             cust.DeleteCust(custID);
 

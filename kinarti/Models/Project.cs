@@ -19,16 +19,20 @@ namespace kinarti.Models
         public string description { get; set; }
         public int cost { get; set; }
         public int status { get; set; }
-        public string customer_name { get; set; }
+        public int customer_id { get; set; }
+        public string architect { get; set; }
+        public string supervisor { get; set; }
 
-        public Project(string _project_name, DateTime _create_date, string _description, int _cost, int _status, string _customer_name)
+        public Project(string _project_name, DateTime _create_date, string _description, int _cost, int _status, int _customer_id, string _architect, string _supervisor)
         {
             project_name = project_name;
             create_date = _create_date;
             description = _description;
             cost = _cost;
             status = _status;
-            customer_name = _customer_name;
+            customer_id = _customer_id;
+            supervisor = _supervisor;
+            architect = _architect;
         }
 
         public Project()
