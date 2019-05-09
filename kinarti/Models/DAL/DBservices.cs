@@ -56,22 +56,13 @@ public class DBservices
         try
         {
             int materialId = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
-            //for (int i = 0; i < material.Prices.Length; i++)
-            //{
-            //    //cStr = BuildInsertHobbiesForUsersCommand(personId, material.Prices[i]);      // helper method to build the insert string
-            //    //cmd = CreateCommand(cStr, con);
-            //    cmd.ExecuteNonQuery();
-            //}
             return materialId;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw (ex); // write to log
         }
-        finally
-        {
-            if (con != null)
-            {
+        finally {
+            if (con != null) {
                 con.Close();// close the db connection
             }
         }
@@ -82,7 +73,6 @@ public class DBservices
     private String BuildInsertMaterialCommand(Material material)
     {
         String command;
-
         StringBuilder sbMaterial = new StringBuilder();
         // use a string builder to create the dynamic string
         sbMaterial.AppendFormat("Values('{0}', '{1}', {2}, {3})",
@@ -90,114 +80,10 @@ public class DBservices
         String prefix = "INSERT INTO materialTbl " + "(name, type, cost, coefficient, workCost) ";
         command = prefix + sbMaterial.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
         return command;
-
     }
 
-    //--------------------------------------------------------------------
-    //  This method inserts a hobbies to the hobbiesforusersTbl table 
-    //--------------------------------------------------------------------
-    //public int insertHobbie(Hobbie hobbie)
-    //{
-    //    SqlConnection con;
-    //    SqlCommand cmd;
-    //    try
-    //    {
-    //        con = connect("TinderConnectionString"); // create the connection
-    //    }
-    //    catch (Exception ex)
-    //    {          
-    //        throw (ex); // write to log
-    //    }
-    //    String cStr = BuildInsertHobbiesForUsersCommand(hobbie);      // helper method to build the insert string
-    //    cmd = CreateCommand(cStr, con);             // create the command
-    //    try
-    //    {
-    //        int numEffected = Convert.ToInt32(cmd.ExecuteScalar());
-    //        //for (int i = 0; i < hobbie.Length; i++)
-    //        //{
-    //        //}
-    //        return numEffected;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return 0;
-    //        throw (ex); // write to log
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();// close the db connection
-    //        }
-    //    }
-    //}
-
-    //--------------------------------------------------------------------
-    // Build the Insert command String-hobbies
-    //--------------------------------------------------------------------
-    //private String BuildInsertHobbiesForUsersCommand(int personId, int hobbieID)
-    //{
-    //    String command;
-    //    StringBuilder sb = new StringBuilder();
-    //    // use a string builder to create the dynamic string
-    //    sb.AppendFormat("Values('{0}', '{1}' )", personId, hobbieID);
-    //    String prefix = "INSERT INTO HobbiesForUsers " + "(personID, hobbieID) ";
-    //    command = prefix + sb.ToString();
-    //    return command;
-
-    //StringBuilder sbHobbies = new StringBuilder();
-    //String prefix2 = "";
-    //for (int i = 0; i < person.Hobbies.Length; i++)
-    //{
-    //    sbHobbies = new StringBuilder();
-    //    sbHobbies.AppendFormat("Values('{0}', '{1}' )", person.ID, person.Hobbies[i]);
-    //    prefix2 += "INSERT INTO HobbiesForUsers " + " (personID, hobbieId) " + sbHobbies.ToString() + ";";
-    //}
-    //}
-    //---------------------------------------------------------------------------------
-    // Read from the DB into a list - dataReader
-    //---------------------------------------------------------------------------------
-    //public List<Material> getMaterials(string conString, string tableName)
-    //{
-    //    SqlConnection con = null;
-    //    List<Material> lm = new List<Material>();
-    //    try
-    //    {
-    //        con = connect(conString); // create a connection to the database using the connection String defined in the web config file
-    //        String selectSTR = "SELECT * FROM " + tableName;
-
-    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
-    //        // get a reader
-    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-    //        while (dr.Read())
-    //        {   // Read till the end of the data into a row
-    //            Material m = new Material();
-    //            m.ID = Convert.ToInt32(dr["id"]);
-    //            m.Name = Convert.ToString(dr["name"]);
-    //            m.Price = Convert.ToInt32(dr["price"]);
-    //            m.Size = Convert.ToString(dr["size"]);
-    //            m.Category = Convert.ToString(dr["category"]);
-
-
-    //            //this function will return list of hobbies indexes
-    //            //p.Hobbies = getHobbiesForPerson("TinderConnectionString", "HobbiesForUsers", p.ID);
-
-    //            lm.Add(m);
-    //        }
-    //        return lm;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw (ex); // write to log
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();
-    //        }
-    //    }
-    //}
+   
+    
 
     //---------------------------------------------------------------------------------
     // Read from the DB into a list - dataReader
@@ -223,10 +109,8 @@ public class DBservices
                 m.Cost = Convert.ToInt32(dr["cost"]);
                 m.Coefficient = Convert.ToInt32 (dr["coefficient"]);
                // m.WorkCost = Convert.ToInt32(dr["workCost"]);
-
                 //this function will return list of hobbies indexes
                 //p.Hobbies = getHobbiesForPerson("TinderConnectionString", "HobbiesForUsers", p.ID);
-
                 lm.Add(m);
             }
             return lm;
@@ -307,7 +191,6 @@ public class DBservices
                 m.ID = Convert.ToInt32(dr["id"]);
                 m.Type = Convert.ToString(dr["type"]);
                 m.Cost = Convert.ToInt32(dr["cost"]);
-
                 lm.Add(m);
             }
             return lm;
@@ -345,12 +228,7 @@ public class DBservices
         try
         {
             int facadeId = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
-            //for (int i = 0; i < material.Prices.Length; i++)
-            //{
-            //    //cStr = BuildInsertHobbiesForUsersCommand(personId, material.Prices[i]);      // helper method to build the insert string
-            //    //cmd = CreateCommand(cStr, con);
-            //    cmd.ExecuteNonQuery();
-            //}
+ 
             return facadeId;
         }
         catch (Exception ex)
@@ -402,7 +280,6 @@ public class DBservices
                 box.Height = Convert.ToInt32(dr["height"]);
                 box.Width = Convert.ToInt32(dr["width"]);
                 box.Depth = Convert.ToInt32(dr["depth"]);
-              //  box.CostForBasicMaterial = Convert.ToInt32(dr["costForBasicMaterial"]);
                 boxesList.Add(box);
             }
             return boxesList;
@@ -428,7 +305,6 @@ public class DBservices
         {
             con = connect(conString);
             String selectSTR = "SELECT * FROM  " + tableName; //"SELECT* FROM " + tableName + " where age >=" + filter.MinAge + " and age <=" + filter.MaxAge + "and gender = 'Male'";
-
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -619,7 +495,7 @@ public class DBservices
     }
 
     //--------------------------------------------------------------------------------------------------
-    // This method inserts a person to the PersonTbl table 
+    // This method inserts a box to the PersonTbl table 
     //--------------------------------------------------------------------------------------------------
     public int insertBox(Box box)
     {
@@ -638,12 +514,6 @@ public class DBservices
         try
         {
             int boxId = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
-            //for (int i = 0; i < box.Hobbies.Length; i++)
-            //{
-            //    cStr = BuildInsertHobbiesForUsersCommand(personId, person.Hobbies[i]);      // helper method to build the insert string
-            //    cmd = CreateCommand(cStr, con);
-            //    cmd.ExecuteNonQuery();
-            //}
             return boxId;
         }
         catch (Exception ex)
@@ -658,6 +528,7 @@ public class DBservices
             }
         }
     }
+
     //--------------------------------------------------------------------
     // Build the Insert command String-person
     //--------------------------------------------------------------------
@@ -674,12 +545,6 @@ public class DBservices
         return command;
     }
 
-
-
-
-
-
-
     //update edited Material in system
     public int updateMaterial(Material material, int Id)
     {
@@ -687,7 +552,6 @@ public class DBservices
         SqlCommand cmd;
         //SqlCommand cmd1;
         //SqlCommand cmd2;
-
         try
         {
             con = connect("PriceITConnectionString"); // create the connection
@@ -699,10 +563,8 @@ public class DBservices
         //String cStrDelete = BuildDeleteHobbiesCommand(Id);
         //cmd2 = CreateCommand(cStrDelete, con);
         //int numEffected2 = (int)cmd2.ExecuteNonQuery();
-        String cStr = BuildUpdateCommand(material, Id);      // helper method to build the insert string
-
+        String cStr = BuildUpdateCommand(material, Id);   // helper method to build the insert string
         cmd = CreateCommand(cStr, con);             // create the command
-
         try
         {
             int numEffected = (int)cmd.ExecuteNonQuery(); // execute the command
@@ -778,7 +640,6 @@ public class DBservices
         string prefix = "UPDATE boxTbl SET type = '" + 1 + "', height = '" + box.Height + "', width = '" + box.Width + "',depth = '" + box.Depth + " WHERE id=" + id;
         return prefix;
     }
-
     //update edited Material in system
     public int updateConstants(Constants constants)
     {
@@ -820,10 +681,6 @@ public class DBservices
             }
         }
     }
-
-
-
-
 
     // need to update the buildupdate command
     private string BuildUpdateCommand(Constants constants)
@@ -881,7 +738,6 @@ public class DBservices
     //Upload Supervisor from DB
     public List<Supervisor> Read(string conString, string tableName)
     {
-
         SqlConnection con = null;
         List<Supervisor> lc = new List<Supervisor>();
         try
@@ -890,7 +746,6 @@ public class DBservices
 
             String selectSTR = "SELECT * FROM " + tableName;
             SqlCommand cmd = new SqlCommand(selectSTR, con);
-
             // get a reader
             SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
@@ -902,7 +757,6 @@ public class DBservices
                 s.sup_phone = (string)dr["sup_phone"];
                 lc.Add(s);
             }
-
             return lc;
         }
         catch (Exception ex)
@@ -916,7 +770,6 @@ public class DBservices
             {
                 con.Close();
             }
-
         }
 
     }
@@ -924,10 +777,8 @@ public class DBservices
     //Insert customer to DB
     public int insertCust(Customer cust)
     {
-
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("PriceITConnectionString"); // create the connection
@@ -937,11 +788,8 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
         String pStr = BuildInsertCommand(cust);      // helper method to build the insert string
-
         cmd = CreateCommand(pStr, con);             // create the command
-
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -953,7 +801,6 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
         finally
         {
             if (con != null)
@@ -962,15 +809,11 @@ public class DBservices
                 con.Close();
             }
         }
-
     }
 
     private String BuildInsertCommand(Customer cust)
     {
-        String command;
-
-
-        
+        String command;       
         // use a string builder to create the dynamic string
         StringBuilder sb = new StringBuilder(); // use a string builder to create the dynamic string
         sb.AppendFormat("Values('{0}', '{1}' , '{2}', '{3}')", cust.first_name, cust.last_name, cust.phone_num,cust.email);
@@ -996,7 +839,6 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
         try
         {
             String selectSTR = "SELECT * FROM Customer2 ";
@@ -1015,7 +857,6 @@ public class DBservices
                 customer.phone_num = Convert.ToString(dr["phone_number"]);
                 customer.email = Convert.ToString(dr["email"]);
 
-
                 CustomersList.Add(customer);
             }
         }
@@ -1028,14 +869,10 @@ public class DBservices
     }
 
     //----------------------------------------------------------------------------
-
     public int Put(Customer c)
     {
-
         SqlConnection con;
         SqlCommand cmd;
-
-
         try
         {
             con = connect("PriceITConnectionString"); // create the connection
@@ -1073,7 +910,6 @@ public class DBservices
                 con.Close();
             }
         }
-
     }
     private string BuildUpdateCustomer(Customer c)
     {
@@ -1089,7 +925,6 @@ public class DBservices
 
         SqlConnection con;
         SqlCommand cmd;
-
 
         try
         {
@@ -1249,7 +1084,6 @@ public class DBservices
     {
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("PriceITConnectionString"); // create the connection
@@ -1299,14 +1133,11 @@ public class DBservices
 
 
 
-    //update edited user in system
+    //update edited item in system
     public int updateItem(Item item, int Id)
     {
         SqlConnection con;
         SqlCommand cmd;
-        //SqlCommand cmd1;
-        //SqlCommand cmd2;
-
         try
         {
             con = connect("PriceITConnectionString"); // create the connection
@@ -1315,9 +1146,6 @@ public class DBservices
         {
             throw (ex);          // write to log
         }
-        // String cStrDelete = BuildDeleteHobbiesCommand(Id);
-        //cmd2 = CreateCommand(cStrDelete, con);
-        //int numEffected2 = (int)cmd2.ExecuteNonQuery();
         String cStr = BuildUpdateCommand(item, Id);      // helper method to build the insert string
 
         cmd = CreateCommand(cStr, con);             // create the command
@@ -1325,12 +1153,7 @@ public class DBservices
         try
         {
             int numEffected = (int)cmd.ExecuteNonQuery(); // execute the command
-            //for (int i = 0; i < person.Hobbies.Length; i++)
-            //{
-            //    String cStrInsertHobbies = BuildInsertHobbiesForUsersCommand(Id, person.Hobbies[i]);
-            //    cmd1 = CreateCommand(cStrInsertHobbies, con);
-            //    int numEffected1 = cmd1.ExecuteNonQuery();
-            //}
+
             return numEffected;
         }
         catch (Exception ex)

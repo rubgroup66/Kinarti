@@ -73,17 +73,17 @@
             <h1>תמחור ארגזת</h1>
             <br />
             <!--<div class="form-group col-sm-4">
-                <label for="depth"><span class="red-star">★ </span>עומק</label>
-                <input type="number" class="form-control" id="depth" placeholder="עומק (סמ)" min="0" required onchange="calculateSquareMeter()">
-            </div>
-            <div class="form-group col-sm-4">
-                <label for="width"><span class="red-star">★ </span>רוחב</label>
-                <input type="number" class="form-control" id="width" placeholder="רוחב (סמ)" min="0" required>
-            </div>
-            <div class="form-group col-sm-4">
-                <label for="height"><span class="red-star">★ </span>גובה</label>
-                <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
-            </div>-->
+        <label for="depth"><span class="red-star">★ </span>עומק</label>
+        <input type="number" class="form-control" id="depth" placeholder="עומק (סמ)" min="0" required onchange="calculateSquareMeter()">
+    </div>
+    <div class="form-group col-sm-4">
+        <label for="width"><span class="red-star">★ </span>רוחב</label>
+        <input type="number" class="form-control" id="width" placeholder="רוחב (סמ)" min="0" required>
+    </div>
+    <div class="form-group col-sm-4">
+        <label for="height"><span class="red-star">★ </span>גובה</label>
+        <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
+    </div>-->
             <!--<div class="form-group col-sm-9" >-->
             <div class="form-group col-sm-3">
                 <div class="row item">
@@ -93,29 +93,30 @@
                     </div>
                 </div>
             </div>
+         
             <div class="form-group col-sm-9">
-                <div class="form-group col-sm-6">
-                    <label for="boxMaterial"><span class="red-star">★ </span>סוג החומר</label>
-                    <select id="boxMaterial" class="form-control" required>
-                        <!--<option value="">בחר סוג חומר</option>-->
-                    </select>
+                <div class="row item">
+                    <div class="form-group col-sm-6">
+                        <label for="boxMaterial"><span class="red-star">★ </span>סוג החומר</label>
+                        <select id="boxMaterial" class="form-control" required>
+                            <!--<option value="">בחר סוג חומר</option>-->
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="boxMeasures"><span class="red-star">★ </span>מידות</label>
+                        <select id="boxMeasures" class="form-control" required></select>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6">
-                    <label for="boxMeasures"><span class="red-star">★ </span>מידות</label>
-                    <select id="boxMeasures" class="form-control" required>
-                        <!--<option value="">בחר מידות ארגזת</option>-->
-                    </select>
+                <div class="row item">
+                    <div class="form-group col-sm-6">
+                        <label for="partitions"><span class="red-star">★ </span>מחיצות</label>
+                        <input type="number" class="form-control" id="partitions" placeholder="כמות מחיצות" value="0" min="0" required onblur="calculateItem()">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="shelves"><span class="red-star">★ </span>מדפים</label>
+                        <input type="number" class="form-control" id="shelves" placeholder="כמות מדפים" value="0" min="0" required onblur="calculateItem()">
+                    </div>
                 </div>
-                <!--<div class="row item">-->
-                <div class="form-group col-sm-6">
-                    <label for="partitions"><span class="red-star">★ </span>מחיצות</label>
-                    <input type="number" class="form-control" id="partitions" placeholder="כמות מחיצות" value="0" min="0" required onblur="calculateItem()">
-                </div>
-                <div class="form-group col-sm-6">
-                    <label for="shelves"><span class="red-star">★ </span>מדפים</label>
-                    <input type="number" class="form-control" id="shelves" placeholder="כמות מדפים" value="0" min="0" required onblur="calculateItem()">
-                </div>
-                <!--</div>-->
                 <div class="row">
                     <div class="form-group col-sm-6" style="direction:rtl">
                         <label for="isDistanced"><span class="red-star">★ </span>הרחקה למגירה פנימית</label>
@@ -256,16 +257,17 @@
                     </div>
                 </div>
                 <!--</div>-->
+                <br />
+                <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">הוסף פריט</button>
+                <br /><br /><br />
             </div>
             <!--<div class="row">
-                <div class="form-group col-sm-3">
-                    <label for="cost"><span class="red-star">★ </span>עלות</label>
-                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
-                </div>
-            </div>-->
-            <br />
-            <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">הוסף פריט</button>
-            <br />
+        <div class="form-group col-sm-3">
+            <label for="cost"><span class="red-star">★ </span>עלות</label>
+            <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+        </div>
+    </div>-->
+
         </form>
     </div>
 </body>
