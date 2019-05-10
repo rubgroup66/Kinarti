@@ -38,6 +38,5 @@
 
     }
 
-
     ajaxCall("POST", "../api/item", JSON.stringify(Item), success, error);
 }

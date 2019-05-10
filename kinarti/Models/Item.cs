@@ -29,7 +29,7 @@ namespace kinarti.Models
         public int InternalScalaBoxDrawers { get; set; }
         public int ExternalScalaBoxDrawers { get; set; }
         public int FacadeMaterialTypeID { get; set; }
-        public int Facade { get; set; }
+        public int FacadeID { get; set; }
         public int HingesQuantity1 { get; set; }
         public int HingesType1ID { get; set; }
         public int HingesQuantity2 { get; set; }
@@ -49,15 +49,14 @@ namespace kinarti.Models
                 int _shelves, int _isDistanced, int  _boxWoodDrawers, 
                 int _internalLegraBoxDrawers, int _externalLegraBoxDrawers, 
                 int _internalScalaBoxDrawers, int _externalScalaBoxDrawers,
-                int _facadeMaterialTypeID, int _facade,
+                int _facadeMaterialTypeID, int _facadeID,
                 int _hingesQuantity1, int _hingesType1ID,
                 int _hingesQuantity2, int _hingesType2ID,
                 int _extraWallQuantity, int _extraWallTypeID,
                 int _handlesQuantity, int _handlesTypeID,
                 int _ironWorksQuantity1, int _ironWorksType1ID,
                 int _ironWorksQuantity2, int _ironWorksType2ID,
-                int _extraCostForItem
-            )
+                int _extraCostForItem)
         {
             ID = _id;
             ProjectID = _projectID;
@@ -72,7 +71,7 @@ namespace kinarti.Models
             InternalScalaBoxDrawers = _internalScalaBoxDrawers;
             ExternalScalaBoxDrawers = _externalScalaBoxDrawers;
             FacadeMaterialTypeID = _facadeMaterialTypeID;
-            Facade = _facade;
+            FacadeID = _facadeID;
             HingesQuantity1 = _hingesQuantity1;
             HingesType1ID = _hingesType1ID;
             HingesQuantity2 = _hingesQuantity2;
@@ -85,8 +84,7 @@ namespace kinarti.Models
             IronWorksType1ID = _ironWorksType1ID;
             IronWorksQuantity2 = _ironWorksQuantity2;
             IronWorksType2ID = _ironWorksType2ID;
-            ExtraCostForItem = _extraCostForItem;
-     
+            ExtraCostForItem = _extraCostForItem;    
         }
         public Item()
         {
