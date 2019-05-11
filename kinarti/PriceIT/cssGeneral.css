@@ -1,0 +1,22 @@
+﻿
+button {
+    margin-left: 10px;
+}
+
+#newBTN {
+    background-color: blueviolet;
+    margin-bottom: 10px;
+}
+
+.item {
+    right: 0px;
+}
+
+.container {
+    direction: rtl;
+    width: 60%;
+}
+
+#itemCost {
+    position: fixed;
+}

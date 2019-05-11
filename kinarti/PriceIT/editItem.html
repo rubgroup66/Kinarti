@@ -11,9 +11,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
     <link href="cssGeneral.css" rel="stylesheet" />
-    <style type="text/css">
 
-    </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -30,6 +28,87 @@
             document.getElementById("box_name").innerHTML = box_name;
             document.getElementById("project_name").innerHTML = proj_name;
         }
+
+        //get item's ID for reviewing / updating
+        var projectID = localStorage.getItem("itemID");
+        function getID() {
+            document.getElementById("itemName").innerHTML = proj_name;
+        }
+        //שמור שם ארגזת
+        function createItem() {
+            var box_name = $("#item_name").val()
+            localStorage.setItem("storageItem_name", box_name);
+            parent.location = 'insertItem.html';
+        }
+
+        //console.log();
+        //projectID
+
+
+
+
+        function successGetItems(itemdata) {
+            itemName = itemdata.Name;
+            itemID = itemdata.ID;
+
+            $("#boxMeasures").val(itemdata.boxMeasures);
+
+            $("#boxMaterial").val(itemdata.boxMaterial); // for..
+
+                //myHinges = hingesdata;
+                //for (var i = 0; i < hingesdata.length; i++) {
+                //    $('#hingesType1').append('<option value="' + hingesdata[i].ID + '" >' + hingesdata[i].Type + '</option>');
+                //    $('#hingesType2').append('<option value="' + hingesdata[i].ID + '" >' + hingesdata[i].Type + '</option>');
+                //}
+            
+
+            $("#partitions").val(itemdata.Partitions);
+
+            $("#shelves").val(itemdata.Shelves);
+            $("#isDistanced").val(itemdata.IsDistanced);// for
+            if (itemdata.IsDistanced == 1)
+                $("#radio_1").attr('checked', 'checked');
+            else
+                $("#radio_2").attr('checked', 'checked');
+
+
+
+
+            $("#boxWoodDrawers").val(itemdata.BoxWoodDrawers);
+            $("#internalLegraBoxDrawers").val(itemdata.InternalLegraBoxDrawers);
+            $("#externalLegraBoxDrawers").val(itemdata.ExternalLegraBoxDrawers);
+            $("#internalScalaBoxDrawers").val(itemdata.InternalScalaBoxDrawers);
+            $("#externalScalaBoxDrawers").val(itemdata.ExternalScalaBoxDrawers);
+            $("#facadeMaterialType").val(itemdata.FacadeMaterialType); // for
+
+            $("#facadeType").val(itemdata.FacadeID); //for
+
+            $("#hingesQuantity1").val(itemdata.HingesQuantity1);
+            $("#hingesType1").val(itemdata.HingesType1);
+
+            $("#hingesQuantity2").val(itemdata.HingesQuantity2);
+            $("#hingesType2").val(itemdata.HingesType2);//forr
+            $("#extraWallQuantity").val(itemdata.ExtraWallQuantity);
+
+            $("#extraWallType").val(itemdata.ExtraWallType);//forrr
+
+            $("#handlesQuantity").val(itemdata.HandlesQuantity);
+            $("#handlesType").val(itemdata.HandlesType); //forr
+
+            $("#ironWorksQuantity1").val(itemdata.IronWorksQuantity1);
+            $("#ironWorksType1").val(itemdata.IronWorksType1);// forr
+
+            $("#ironWorksQuantity2").val(itemdata.IronWorksQuantity2);
+            $("#ironWorksType2").val(itemdata.IronWorksType2);// forr
+
+            $("#extraCostForItem").val(itemdata.extraCostForItem);
+            $("#extraWallQuantity").val(itemdata.ExtraWallQuantity);
+
+            //$("#image").val(persondata.Image); 
+            //photo = persondata.Image; // maybe extra feature will be photo of the item?
+            //imgSRC = "<img src='../" + photo + "'/>";
+            //document.getElementById("ph").innerHTML = imgSRC;
+        }       
     </script>
 </head>
 <body onload="loadProjectID()">
@@ -52,17 +131,17 @@
             <h1>תמחור ארגזת</h1>
             <br />
             <!--<div class="form-group col-sm-4">
-        <label for="depth"><span class="red-star">★ </span>עומק</label>
-        <input type="number" class="form-control" id="depth" placeholder="עומק (סמ)" min="0" required onchange="calculateSquareMeter()">
-    </div>
-    <div class="form-group col-sm-4">
-        <label for="width"><span class="red-star">★ </span>רוחב</label>
-        <input type="number" class="form-control" id="width" placeholder="רוחב (סמ)" min="0" required>
-    </div>
-    <div class="form-group col-sm-4">
-        <label for="height"><span class="red-star">★ </span>גובה</label>
-        <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
-    </div>-->
+                <label for="depth"><span class="red-star">★ </span>עומק</label>
+                <input type="number" class="form-control" id="depth" placeholder="עומק (סמ)" min="0" required onchange="calculateSquareMeter()">
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="width"><span class="red-star">★ </span>רוחב</label>
+                <input type="number" class="form-control" id="width" placeholder="רוחב (סמ)" min="0" required>
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="height"><span class="red-star">★ </span>גובה</label>
+                <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
+            </div>-->
             <!--<div class="form-group col-sm-9" >-->
             <div class="form-group col-sm-3">
                 <div class="row item">
@@ -72,7 +151,7 @@
                     </div>
                 </div>
             </div>
-         
+
             <div class="form-group col-sm-9">
                 <div class="row item">
                     <div class="form-group col-sm-6">
@@ -138,8 +217,8 @@
                         </select>
                     </div>
                     <div class="form-group col-sm-6">
-                        <label for="facadeType"><span class="red-star">★ </span>סוג גמר</label>
-                        <select id="facadeType" class="form-control" required onchange="calculateItem()">
+                        <label for="facade"><span class="red-star">★ </span>סוג גמר</label>
+                        <select id="facade" class="form-control" required onchange="calculateItem()">
                             <!--<option value="">בחר סוג גמר</option>-->
                             <option value="0">ללא</option>
                         </select>
@@ -241,11 +320,11 @@
                 <br /><br /><br />
             </div>
             <!--<div class="row">
-        <div class="form-group col-sm-3">
-            <label for="cost"><span class="red-star">★ </span>עלות</label>
-            <input type="number" class="form-control" id="cost" placeholder="0" disabled>
-        </div>
-    </div>-->
+                <div class="form-group col-sm-3">
+                    <label for="cost"><span class="red-star">★ </span>עלות</label>
+                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+                </div>
+            </div>-->
 
         </form>
     </div>

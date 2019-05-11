@@ -1078,9 +1078,49 @@ public class DBservices
         return ProjectsList;
     }
 
-    //חדש יבגני
 
-    public int insertItem(Item item)
+
+
+
+
+    //חדש יבגני
+    public List<FacadeMaterial> getFacadeMaterials(string conString, string tableName)
+    {
+        SqlConnection con = null;
+        List<FacadeMaterial> lm = new List<FacadeMaterial>();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * FROM " + tableName;
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                FacadeMaterial m = new FacadeMaterial();
+                m.ID = Convert.ToInt32(dr["id"]);
+                m.Name = Convert.ToString(dr["name"]);
+                m.Cost = Convert.ToInt32(dr["cost"]);
+
+                lm.Add(m);
+            }
+            return lm;
+        }
+        catch (Exception ex)
+        {
+            throw (ex); // write to log
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
+    public int insertItem(Item item)//inserting new item
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1124,8 +1164,8 @@ public class DBservices
         String command;
 
         StringBuilder sbItem = new StringBuilder(); // use a string builder to create the dynamic string
-        sbItem.AppendFormat("Values({0}, {1} ,{2}, {3}, {4}, {5}, {6} ,{7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24})",  item.Type, item.Cost, item.ProjectID, item.Shelves, item.IsDistanced, item.BoxWoodDrawers, item.InternalLegraBoxDrawers, item.ExternalLegraBoxDrawers, item.InternalScalaBoxDrawers, item.ExternalScalaBoxDrawers, item.FacadeMaterialTypeID, item.FacadeID, item.HingesQuantity1, item.HingesType1ID, item.HingesQuantity2, item.HingesType2ID, item.ExtraWallQuantity, item.ExtraWallTypeID, item.HandlesQuantity, item.HandlesTypeID, item.IronWorksQuantity1, item.IronWorksType1ID, item.IronWorksQuantity2, item.IronWorksType2ID, item.ExtraCostForItem);
-        String prefix = "INSERT INTO itemTbl " + "(type, cost, projectID, shelves, isDistanced, boxWoodDrawers, internalLegraBoxDrawers, externalLegraBoxDrawers, internalScalaBoxDrawers, externalScalaBoxDrawers, facadeMaterialTypeID, facadeID, hingesQuantity1, hingesType1ID, hingesQuantity2, hingesType2ID, extraWallQuantity, extraWallTypeID, handlesQuantity, handlesTypeID, ironWorksQuantity1, ironWorksType1ID, ironWorksQuantity2, ironWorksType2ID, extraCostForItem) ";
+        sbItem.AppendFormat("Values({0}, {1} ,{2}, {3}, {4}, {5}, {6} ,{7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24})",  item.Type, item.Cost, item.ProjectID, item.Shelves, item.IsDistanced, item.BoxWoodDrawers, item.InternalLegraBoxDrawers, item.ExternalLegraBoxDrawers, item.InternalScalaBoxDrawers, item.ExternalScalaBoxDrawers, item.FacadeMaterialTypeID, item.FacadeTypeID, item.HingesQuantity1, item.HingesType1ID, item.HingesQuantity2, item.HingesType2ID, item.ExtraWallQuantity, item.ExtraWallTypeID, item.HandlesQuantity, item.HandlesTypeID, item.IronWorksQuantity1, item.IronWorksType1ID, item.IronWorksQuantity2, item.IronWorksType2ID, item.ExtraCostForItem);
+        String prefix = "INSERT INTO itemTbl " + "(type, cost, projectID, shelves, isDistanced, boxWoodDrawers, internalLegraBoxDrawers, externalLegraBoxDrawers, internalScalaBoxDrawers, externalScalaBoxDrawers, facadeMaterialTypeID, facadeTypeID, hingesQuantity1, hingesType1ID, hingesQuantity2, hingesType2ID, extraWallQuantity, extraWallTypeID, handlesQuantity, handlesTypeID, ironWorksQuantity1, ironWorksType1ID, ironWorksQuantity2, ironWorksType2ID, extraCostForItem) ";
         //command = prefix + sbItem.ToString();
         command = prefix + sbItem.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
         return command;
@@ -1136,33 +1176,26 @@ public class DBservices
     {
         SqlConnection con;
         SqlCommand cmd;
-        try
-        {
+        try {
             con = connect("PriceITConnectionString"); // create the connection
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw (ex);          // write to log
         }
         String cStr = BuildUpdateCommand(item, Id);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
 
-        try
-        {
+        try {
             int numEffected = (int)cmd.ExecuteNonQuery(); // execute the command
 
             return numEffected;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             return 0;
             throw (ex);       // write to log
         }
-        finally
-        {
-            if (con != null)
-            {
+        finally {
+            if (con != null) {
                 con.Close();        // close the db connection
             }
         }
@@ -1171,45 +1204,11 @@ public class DBservices
     private string BuildUpdateCommand(Item p, int id)
     {
         //String command;
-        string prefix = "UPDATE itemTbl SET projectID = '" + p.ProjectID + "', type = '" + p.Type + "', cost = '" + p.Cost + "' WHERE id=" + id;
+        string prefix = "UPDATE itemTbl SET projectID = '" + p.ProjectID + "', type = '" + p.Type + "', cost = '" + p.Cost + "', shelves = '" + p.Shelves + "',  isDistanced = '" + p.IsDistanced + "', boxWoodDrawers = '" + p.BoxWoodDrawers + "', internalLegraBoxDrawers = '" + p.InternalLegraBoxDrawers +"', externalLegraBoxDrawers = '" + p.ExternalLegraBoxDrawers + "', internalScalaBoxDrawers = '" + p.InternalScalaBoxDrawers + "', externalScalaBoxDrawers = '" + p.ExternalScalaBoxDrawers + "', facadeMaterialTypeID = '" + p.FacadeMaterialTypeID + "', facadeTypeID = '" +p.FacadeTypeID +"', hingesQuantity1 = '" + p.HingesQuantity1 + "', hingesType1ID = '" + p.HingesType1ID + "', hingesQuantity2 = '" + p.HingesQuantity2 + "', hingesType2ID = '" + p.HingesType2ID + "', extraWallQuantity = '" + p.ExtraWallQuantity + "', extraWallTypeID = '" +p.ExtraWallTypeID + "', handlesQuantity = '" + p.HandlesQuantity + "', handlesTypeID = '" + p.HandlesTypeID + "', ironWorksQuantity1 = '" + p.IronWorksQuantity1 + "', ironWorksType1ID = '" + p.IronWorksType1ID + "', ironWorksQuantity2 = '" + p.IronWorksQuantity2 + "', ironWorksType2ID = '" + p.IronWorksType2ID + "', extraCostForItem = '" + p.ExtraCostForItem + "' WHERE id = " + id;
         return prefix;
     }
 
 
-    public List<FacadeMaterial> getFacadeMaterials(string conString, string tableName)
-    {
-        SqlConnection con = null;
-        List<FacadeMaterial> lm = new List<FacadeMaterial>();
-        try
-        {
-            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * FROM " + tableName;
 
-            SqlCommand cmd = new SqlCommand(selectSTR, con);
-            // get a reader
-            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-            while (dr.Read())
-            {   // Read till the end of the data into a row
-                FacadeMaterial m = new FacadeMaterial();
-                m.ID = Convert.ToInt32(dr["id"]);
-                m.Name = Convert.ToString(dr["name"]);
-                m.Cost = Convert.ToInt32(dr["cost"]);
-
-                lm.Add(m);
-            }
-            return lm;
-        }
-        catch (Exception ex)
-        {
-            throw (ex); // write to log
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    }
 
 }
