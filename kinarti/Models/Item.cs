@@ -17,8 +17,8 @@ namespace kinarti.Models
         public float Cost { get; set; }
         public int ProjectID { get; set; }
 
-        public int BoxMaterial { get; set; }
-        public int BoxMeasures { get; set; }
+        public int BoxMaterialID { get; set; }
+        public int BoxMeasuresID { get; set; }
         public int Partitions { get; set; }
         public int Shelves { get; set; }
         public int IsDistanced { get; set; }
@@ -45,7 +45,8 @@ namespace kinarti.Models
         public int ExtraCostForItem { get; set; }
 
 
-        public Item(int _id, int _type, float _cost, int _projectID,
+        public Item(int _id, int _type, float _cost, int _projectID, int _partitions,
+                int _boxMaterialID, int _boxMeasuresID,
                 int _shelves, int _isDistanced, int  _boxWoodDrawers, 
                 int _internalLegraBoxDrawers, int _externalLegraBoxDrawers, 
                 int _internalScalaBoxDrawers, int _externalScalaBoxDrawers,
@@ -61,8 +62,11 @@ namespace kinarti.Models
             ID = _id;
             ProjectID = _projectID;
             Type = _type; //will always be 1 until we add open box
-            //   Cost = _cost;
+            Cost = _cost;
 
+            BoxMaterialID = _boxMaterialID;
+            BoxMeasuresID = _boxMeasuresID;
+            Partitions = _partitions;
             Shelves = _shelves;
             IsDistanced = _isDistanced;
             BoxWoodDrawers = _boxWoodDrawers;
