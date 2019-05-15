@@ -21,7 +21,7 @@ var plateSquareMeter;
 var drawerCoefficientCost;
 var materialWoodDrawersCoefficient;
 var myFacadeMaterials;
-
+var itemsdata;
 var extraCostForItem;
 
 $(document).ready(function () {
@@ -43,11 +43,11 @@ function error(err) { // this function is activated in case of a failure
 
 
 function successGetItems(itemsdata) {// this function is activated in case of a success
-    //myMaterials = (JSON.stringify(materialsdata));    
+        myItems = itemsdata;    
     for (var i = 0; i < itemsdata.length; i++) {
         $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
     }
-    console.log("myItems" + " " + itemsdata);
+    console.log("myItems" + " " + myItems);
 }
 function successGetMaterials(materialsdata) {// this function is activated in case of a success
     myMaterials = materialsdata;
@@ -77,6 +77,42 @@ function successGetBoxes(boxesdata) {// this function is activated in case of a 
     myBoxes = boxesdata;
     for (var i = 0; i < boxesdata.length; i++) {
         $('#boxMeasures').append('<option value="' + boxesdata[i].ID + '" >' + boxesdata[i].Height + 'X' + boxesdata[i].Width + 'X' + boxesdata[i].Depth + '</option>');
+    }
+}
+
+
+
+function fillInputs(chosenItem) {// this function will take values from server to fields for chosen item
+    for (var i = 0; i < itemsdata.length; i++) {
+        if (chosenItem.Name === itemsdata[i].Name) {
+
+            $("#cost").val(itemsdata[i].Cost);
+            $("#itemName").val(itemsdata[i].Cost);
+            $("#boxMaterial").val(itemsdata[i].Cost);
+            $("#boxMeasures").val(itemsdata[i].Cost);
+            $("#partitions").val(itemsdata[i].Cost),
+            $("#shelves").val(itemsdata[i].Cost);
+            $("#isDistanced").is(':checked') ? 1 : 0,
+            $("#boxWoodDrawers").val(myItems[i].BoxWoodDrawers);
+            $("#internalLegraBoxDrawers").val(itemsdata[i].InternalLegraBoxDrawers);
+            $("#externalLegraBoxDrawers").val(itemsdata[i].ExternalLegraBoxDrawers);
+            $("#internalScalaBoxDrawers").val(itemsdata[i].InternalScalaBoxDrawers);
+            $("#externalScalaBoxDrawers").val(itemsdata[i].ExternalScalaBoxDrawers);
+            $("#facadeMaterialType").val(itemsdata[i].FacadeMaterialTypeID);
+            $("#facade").val(itemsdata[i].FacadeID);
+            $("#hingesQuantity1").val(itemsdata[i].HingesQuantity1);
+            $("#hingesType1").val(itemsdata[i].HingesType1);
+            $("#hingesQuantity2").val(itemsdata[i].HingesQuantity2);
+            $("#hingesType1").val(itemsdata[i].HingesType1);
+            $("#extraWallQuantity").val(itemsdata[i].ExtraWallQuantity);
+            $("#extraWallType").val(itemsdata[i].ExtraWallTypeID);
+            $("#handlesQuantity").val(itemsdata[i].HandlesQuantity);
+            $("#handlesType").val(itemsdata[i].handlesType);
+            $("#ironWorksQuantity1").val(itemsdata[i].ironWorksQuantity1);
+            $("#ironWorksType1").val(itemsdata[i].ironWorksType1);
+            $("#ironWorksQuantity2").val(itemsdata[i].IronWorksQuantity2);
+            $("#ironWorksType2").val(itemsdata[i].IronWorksType2);
+        }
     }
 }
 
