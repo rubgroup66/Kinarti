@@ -15,14 +15,14 @@ namespace kinarti.Controllers
 
     public class ItemController : ApiController
     {
-        //[System.Web.Http.HttpGet]
-        //[Route("api/items")]
-        //public IEnumerable<Item> GeItem()
-        //{
-        //    Item item = new Item();
-        //    List<Item> lm = item.getItems();
-        //    return lm;
-        //}
+        [System.Web.Http.HttpGet]
+        [Route("api/items")]
+        public IEnumerable<Item> GeItem()
+        {
+            Item item = new Item();
+            List<Item> lm = item.getItems();
+            return lm;
+        }
 
         // POST api/values
         [HttpPost]

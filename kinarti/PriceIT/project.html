@@ -33,10 +33,28 @@
     <script src="../Scripts/ajaxCallsStub.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
-               
+        $(document).ready(function () {
+            ajaxCall("GET", "../api/items", "", successGetItems, error); //get all materials from DB
+
+    
+            //$("#pForm").submit(f2);
+        });    
         function ShowInfo() {
             $("#info").show();
             
+        }
+
+        function error(err) { // this function is activated in case of a failure
+            swal("Error: " + err);
+        }
+
+        function successGetItems(itemsdata) {// this function is activated in case of a success
+
+            //myMaterials = (JSON.stringify(materialsdata));    
+            for (var i = 0; i < itemsdata.length; i++) {
+                $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
+            }
+            console.log("myItems" + " " + itemsdata);
         }
 
         //לשלוף שם פרויקט
@@ -69,34 +87,44 @@
             </ul>
         </div>
     </nav>
-    
+
     <p id="project_name">Project name</p>
 
-    
-        
-    
-    <!-------------------------------------->
 
-    <div>
-        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת</button>
+
+
+    <!-------------------------------------->
+    <!--<div>
+        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
+    </div>-->
+
+    <div class="form-group">
+        <label for="addExistingItem">Gender</label>
+        <select id="addExistingItem" required>
+        </select>
     </div>
 
-    
-        <div id="info" hidden>
-            <form id="custForm">
-                <div class="form-group row">
 
-                    <div class="form-group col-sm-3">
-                        <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
-                        <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
-                    </div>
+    <div>
+        <button class="btn btn-primary" id="duplicate" onclick="ShowInfo()"> + הוסף ארגזת</button>
+    </div>
 
+
+    <div id="info" hidden>
+        <form id="custForm">
+            <div class="form-group row">
+
+                <div class="form-group col-sm-3">
+                    <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
+                    <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
                 </div>
 
-                
-                <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
-            </form>
-        </div>
+            </div>
+
+
+            <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
+        </form>
+    </div>
 
 </body>
 </html>

@@ -16,6 +16,7 @@ namespace kinarti.Models
         public int Type { get; set; }
         public float Cost { get; set; }
         public int ProjectID { get; set; }
+        public string Name { get; set; }
 
         public int BoxMaterialID { get; set; }
         public int BoxMeasuresID { get; set; }
@@ -43,7 +44,8 @@ namespace kinarti.Models
         public int IronWorksQuantity2 { get; set; }
         public int IronWorksType2ID { get; set; }
         public int ExtraCostForItem { get; set; }
-
+        
+        
 
         public Item(int _id, int _type, float _cost, int _projectID, int _partitions,
                 int _boxMaterialID, int _boxMeasuresID,
@@ -57,11 +59,12 @@ namespace kinarti.Models
                 int _handlesQuantity, int _handlesTypeID,
                 int _ironWorksQuantity1, int _ironWorksType1ID,
                 int _ironWorksQuantity2, int _ironWorksType2ID,
-                int _extraCostForItem)
+                int _extraCostForItem, string _name)
         {
             ID = _id;
             ProjectID = _projectID;
             Type = _type; //will always be 1 until we add open box
+            Name = _name;
             Cost = _cost;
 
             BoxMaterialID = _boxMaterialID;
@@ -100,14 +103,14 @@ namespace kinarti.Models
             return numAffected;
         }
         //--------------------------------------------------------------------------
-        // get the list of the boxes
-        ////--------------------------------------------------------------------------
-        //public List<Handle> getHandles()
-        //{
-        //    DBservices dbs = new DBservices();
-        //    List<Handle> lp = dbs.getHandles("PriceITConnectionString", "handleTbl");
-        //    return lp;
-        //}
+        // get the list of the persons
+        //--------------------------------------------------------------------------
+        public List<Item> getItems()
+        {
+            DBservices dbs = new DBservices();
+            List<Item> lp = dbs.getItems("PriceITConnectionString", "itemTbl1");
+            return lp;
+        }
 
         public int updateItem(int Id)
         {

@@ -1165,7 +1165,7 @@ public class DBservices
 
         StringBuilder sbItem = new StringBuilder(); // use a string builder to create the dynamic string
         sbItem.AppendFormat("Values({0}, {1} ,{2}, {3}, {4}, {5}, {6} ,{7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24}, {25}, {26}, {27})",  item.Type, item.Cost, item.ProjectID, item.BoxMaterialID, item.BoxMeasuresID, item.Partitions, item.Shelves, item.IsDistanced, item.BoxWoodDrawers, item.InternalLegraBoxDrawers, item.ExternalLegraBoxDrawers, item.InternalScalaBoxDrawers, item.ExternalScalaBoxDrawers, item.FacadeMaterialTypeID, item.FacadeTypeID, item.HingesQuantity1, item.HingesType1ID, item.HingesQuantity2, item.HingesType2ID, item.ExtraWallQuantity, item.ExtraWallTypeID, item.HandlesQuantity, item.HandlesTypeID, item.IronWorksQuantity1, item.IronWorksType1ID, item.IronWorksQuantity2, item.IronWorksType2ID, item.ExtraCostForItem);
-        String prefix = "INSERT INTO itemTbl " + "(type, cost, projectID, BoxMaterialID, boxMeasuresID, partitions, shelves, isDistanced, boxWoodDrawers, internalLegraBoxDrawers, externalLegraBoxDrawers, internalScalaBoxDrawers, externalScalaBoxDrawers, facadeMaterialTypeID, facadeTypeID, hingesQuantity1, hingesType1ID, hingesQuantity2, hingesType2ID, extraWallQuantity, extraWallTypeID, handlesQuantity, handlesTypeID, ironWorksQuantity1, ironWorksType1ID, ironWorksQuantity2, ironWorksType2ID, extraCostForItem) ";
+        String prefix = "INSERT INTO itemTbl1 " + "(type, cost, projectID, boxMaterialID, boxMeasuresID, partitions, shelves, isDistanced, boxWoodDrawers, internalLegraBoxDrawers, externalLegraBoxDrawers, internalScalaBoxDrawers, externalScalaBoxDrawers, facadeMaterialTypeID, facadeTypeID, hingesQuantity1, hingesType1ID, hingesQuantity2, hingesType2ID, extraWallQuantity, extraWallTypeID, handlesQuantity, handlesTypeID, ironWorksQuantity1, ironWorksType1ID, ironWorksQuantity2, ironWorksType2ID, extraCostForItem) ";
         //command = prefix + sbItem.ToString();
         command = prefix + sbItem.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
         return command;
@@ -1208,7 +1208,70 @@ public class DBservices
         return prefix;
     }
 
+    public List<Item> getItems(string conString, string tableName)
+    {
+        SqlConnection con = null;
+        List<Item> lm = new List<Item>();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * FROM " + tableName;
 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                Item item = new Item();
+                item.ID = Convert.ToInt32(dr["id"]);
+                item.Name = Convert.ToString(dr["name"]);
+                item.Cost = Convert.ToInt32(dr["cost"]);
+
+                item.ProjectID = Convert.ToInt32(dr["cost"]);
+                item.Type = Convert.ToInt32(dr["cost"]); //will always be 1 until we add open box
+
+                item.BoxMaterialID = Convert.ToInt32(dr["boxMaterialID"]);
+                item.BoxMeasuresID = Convert.ToInt32(dr["boxMeasuresID"]);
+                item.Partitions = Convert.ToInt32(dr["partitions"]);
+                item.Shelves = Convert.ToInt32(dr["shelves"]);
+                item.IsDistanced = Convert.ToInt32(dr["isDistanced"]);
+                item.BoxWoodDrawers = Convert.ToInt32(dr["boxWoodDrawers"]);
+                item.InternalLegraBoxDrawers = Convert.ToInt32(dr["internalLegraBoxDrawers"]);
+                item.ExternalLegraBoxDrawers = Convert.ToInt32(dr["externalLegraBoxDrawers"]);
+                item.InternalScalaBoxDrawers = Convert.ToInt32(dr["internalScalaBoxDrawers"]);
+                item.ExternalScalaBoxDrawers = Convert.ToInt32(dr["externalScalaBoxDrawers"]);
+                item.FacadeMaterialTypeID = Convert.ToInt32(dr["facadeMaterialTypeID"]);
+                item.FacadeTypeID = Convert.ToInt32(dr["facadeTypeID"]);
+                item.HingesQuantity1 = Convert.ToInt32(dr["hingesQuantity1"]);
+                item.HingesType1ID = Convert.ToInt32(dr["hingesType1ID"]);
+                item.HingesQuantity2 = Convert.ToInt32(dr["hingesQuantity2"]);
+                item.HingesType2ID = Convert.ToInt32(dr["hingesType2ID"]);
+                item.ExtraWallQuantity = Convert.ToInt32(dr["extraWallQuantity"]);
+                item.ExtraWallTypeID = Convert.ToInt32(dr["extraWallTypeID"]);
+                item.HandlesQuantity = Convert.ToInt32(dr["handlesQuantity"]);
+                item.HandlesTypeID = Convert.ToInt32(dr["handlesTypeID"]);
+                item.IronWorksQuantity1 = Convert.ToInt32(dr["ironWorksQuantity1"]);
+                item.IronWorksType1ID = Convert.ToInt32(dr["ironWorksType1ID"]);
+                item.IronWorksQuantity2 = Convert.ToInt32(dr["ironWorksQuantity2"]);
+                item.IronWorksType2ID = Convert.ToInt32(dr["ironWorksType2ID"]);
+                item.ExtraCostForItem = Convert.ToInt32(dr["extraCostForItem"]);
+
+                lm.Add(item);
+            }
+            return lm;
+        }
+        catch (Exception ex)
+        {
+            throw (ex); // write to log
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
 
 
 }
