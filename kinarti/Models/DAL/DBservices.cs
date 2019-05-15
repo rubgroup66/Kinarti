@@ -1023,8 +1023,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}', '{2}', '{3}', '{4}')", proj.project_name, proj.description , proj.architect, proj.supervisor , proj.customer_id );
-        String prefix = "INSERT INTO Project2 " + "(project_name, description, architect, supervisor, custID ) ";
+        sb.AppendFormat("Values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')", proj.project_name, proj.description , proj.architect, proj.supervisor , proj.customer_id , 0 );
+        String prefix = "INSERT INTO Project2 " + "(project_name, description, architect, supervisor, custID, status ) ";
 
         command = prefix + sb.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
 
@@ -1064,7 +1064,7 @@ public class DBservices
                 //project.create_date = Convert.ToDateTime(dr["create_date"]);
                 project.description = Convert.ToString(dr["description"]);
                 //project.cost = Convert.ToInt32(dr["cost"]);
-                //project.status = Convert.ToInt32(dr["status"]);
+                project.status = Convert.ToInt32(dr["status"]);
                 project.customer_id = Convert.ToInt32(dr["custID"]);
 
                 ProjectsList.Add(project);
@@ -1077,9 +1077,149 @@ public class DBservices
         }
         return ProjectsList;
     }
+    public List<Project> filterProj(Filter p)
+    {
 
+        SqlConnection con;
+        List<Project> projectList = new List<Project>();
 
+        try
+        {
+            con = connect("PriceITConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        }
 
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        try
+        {
+            String selectSTR = "SELECT * FROM Project2 where status= " +p.status+ "";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+             // read first field from the row into the list collection
+                Project project = new Project();
+                project.project_name = Convert.ToString(dr["project_name"]);
+                //project.create_date = Convert.ToDateTime(dr["create_date"]);
+                project.description = Convert.ToString(dr["description"]);
+                //project.cost = Convert.ToInt32(dr["cost"]);
+                project.status = Convert.ToInt32(dr["status"]);
+                project.customer_id = Convert.ToInt32(dr["custID"]);
+
+                projectList.Add(project);
+            }
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        return projectList;
+
+    }
+
+    public List<Project> filterProjC(Filter c)
+    {
+
+        SqlConnection con;
+        List<Project> projectList = new List<Project>();
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        }
+
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        try
+        {
+            String selectSTR = "SELECT * FROM Project2 where custID= " + c.customer_id + "";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+             // read first field from the row into the list collection
+                Project project = new Project();
+                project.project_name = Convert.ToString(dr["project_name"]);
+                //project.create_date = Convert.ToDateTime(dr["create_date"]);
+                project.description = Convert.ToString(dr["description"]);
+                //project.cost = Convert.ToInt32(dr["cost"]);
+                project.status = Convert.ToInt32(dr["status"]);
+                project.customer_id = Convert.ToInt32(dr["custID"]);
+
+                projectList.Add(project);
+            }
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        return projectList;
+
+    }
+
+    public List<Project> filterProjP(Filter p)
+    {
+
+        SqlConnection con;
+        List<Project> projectList = new List<Project>();
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        }
+
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        try
+        {
+            String selectSTR = "SELECT * FROM Project2 where cost>= " + p.minPrice + " and cost<= " + p.maxPrice + "";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+             // read first field from the row into the list collection
+                Project project = new Project();
+                project.project_name = Convert.ToString(dr["project_name"]);
+                //project.create_date = Convert.ToDateTime(dr["create_date"]);
+                project.description = Convert.ToString(dr["description"]);
+                //project.cost = Convert.ToInt32(dr["cost"]);
+                project.status = Convert.ToInt32(dr["status"]);
+                project.customer_id = Convert.ToInt32(dr["custID"]);
+
+                projectList.Add(project);
+            }
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        return projectList;
+
+    }
 
 
 

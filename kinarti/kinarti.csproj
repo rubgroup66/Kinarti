@@ -180,6 +180,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\FacedeMaterial.cs" />
     <Compile Include="Models\Project.cs" />
@@ -214,7 +215,6 @@
     <Content Include="PriceIT\ShowCustomers.html" />
     <Content Include="PriceIT\insertBox.html" />
     <Content Include="PriceIT\editConstants2.html" />
-    <Content Include="PriceIT\CustomerShow.html" />
     <Content Include="PriceIT\insertItem.html" />
     <Content Include="PriceIT\.html" />
     <Content Include="PriceIT\CreateNewCustomer.html" />
