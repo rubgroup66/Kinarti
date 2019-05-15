@@ -44,7 +44,7 @@ function error(err) { // this function is activated in case of a failure
 
 function successGetItems(itemsdata) {// this function is activated in case of a success
         myItems = itemsdata;    
-    for (var i = 0; i < itemsdata.length; i++) {
+    for (var i = 0; i < myItems.length; i++) {
         $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
     }
     console.log("myItems" + " " + myItems);
@@ -186,6 +186,14 @@ function addItem2() {
 
     ajaxCall("POST", "../api/item", JSON.stringify(Item), success, error);
 }
+
+
+
+
+function returenToProject() {
+    parent.location = 'project.html';
+}
+
 
 function addItem() {
     Item = {
