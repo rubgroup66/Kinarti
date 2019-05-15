@@ -55,6 +55,28 @@ namespace kinarti.Models
             return projectsList;
         }
 
+        public List<Project> filter(Filter status)
+        {
+            DBservices dbs = new DBservices();
+            List<Project> listProj = dbs.filterProj(status);
+            return listProj;
+        }
+
+        public List<Project> filterC(Filter cust)
+        {
+            DBservices dbs = new DBservices();
+            List<Project> listProj = dbs.filterProjC(cust);
+            return listProj;
+        }
+
+        public List<Project> filterP(Filter price)
+        {
+            DBservices dbs = new DBservices();
+            List<Project> listProj = dbs.filterProjP(price);
+            return listProj;
+        }
+
+
         //    public List<Customer> GetCustomers()
         //    {
         //        DBservices db = new DBservices();

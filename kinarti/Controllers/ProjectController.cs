@@ -31,5 +31,45 @@ namespace kinarti.Controllers
             return projectList;
         }
 
+        //[HttpGet]
+        //[Route("api/filter")]
+        //public IEnumerable<Project> filterProj(Project status)
+        //{
+        //    Project P = new Project();
+        //    return P.filter(status);
+        //}
+        
+        [HttpPost]
+        [Route("api/filter")]
+        public IEnumerable<Project> filterProj(Filter status)
+        {
+           
+            
+          
+            Project p = new Project();
+            List<Project> projectList = p.filter(status);
+
+
+            return projectList;
+
+        }
+        [HttpPost]
+        [Route("api/filter/cust")]
+        public IEnumerable<Project> filtercust(Filter cust)
+        {
+            Project p = new Project();
+            List<Project> projectList = p.filterC(cust);
+
+            return projectList;
+        }
+        [HttpPost]
+        [Route("api/filter/price")]
+        public IEnumerable<Project> filterprice(Filter price)
+        {
+            Project p = new Project();
+            List<Project> projectList = p.filterC(price);
+
+            return projectList;
+        }
     }
 }

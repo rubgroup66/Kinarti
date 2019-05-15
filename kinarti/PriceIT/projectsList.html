@@ -63,8 +63,8 @@
                         render: function (data, type, row, meta) {
                             status = "";
                             if (data == 1) {
-                                status = '<img title="Completed" src="https://img.icons8.com/office/16/000000/spinner-frame-7.png" />'
-                            } else status = '<img title="In progress" src="https://img.icons8.com/office/16/000000/spinner-frame-7.png"/>'
+                                status = '<img title="Complete" src="https://img.icons8.com/doodle/48/000000/checkmark.png">'
+                            } else status = '<img title="In progress" src="https://img.icons8.com/ios/50/000000/progress-indicator.png">'
                             return status;
                         }
                     },
@@ -86,11 +86,190 @@
 
         });
 
+        function ShowFilter() {
+            document.getElementById('filterDiv').style.display = "block";
+        }
+
+        function filterCust() {
+            Filter = { // Note that the name of the fields must be identical to the names of the properties of the object in the server
+                customer_id: $("#custID").val()
+
+            }
+            ajaxCall("POST", "../api/filter/cust", JSON.stringify(Filter), successfilterCust, errorfilterCust);
+
+        }
+
+        function filterPrice() {
+            Filter = { // Note that the name of the fields must be identical to the names of the properties of the object in the server
+                minPrice: $("#minPrice").val(),
+                maxPrice: $("#maxPrice").val()
+            }
+            ajaxCall("POST", "../api/filter/price", JSON.stringify(Filter), successfilterPrice, errorfilterPrice);
+
+        }
+
+        function successfilterPrice(data) {
+            document.getElementById('con').style.display = "none";
+            document.getElementById('filterd2').style.display = "block";
+            $('#projects_table3').DataTable({
+                data: data,
+                "autoWidth": false,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            let dataCust = "data-custId='" + row.id + "'";
+
+                            EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
+                            return EditProjBtn;
+                        }
+                    },
+                    {
+                        data: "status",
+                        render: function (data, type, row, meta) {
+                            status = "";
+                            if (data == 1) {
+                                status = '<img title="Complete" src="https://img.icons8.com/doodle/48/000000/checkmark.png">'
+                            } else status = '<img title="In progress" src="https://img.icons8.com/ios/50/000000/progress-indicator.png">'
+                            return status;
+                        }
+                    },
+                    { data: "project_name" },
+                    { data: "customer_id" },
+                    { data: "description" },
+                    { data: "create_date" },
+                    { data: "cost" },
+                ]
+            })
+        }
+        
+        function errorfilterPrice() {
+            alert("error")
+        }
+
+        function successfilterCust(data) {
+            document.getElementById('con').style.display = "none";
+            document.getElementById('filterd2').style.display = "block"; 
+            $('#projects_table3').DataTable({
+                data: data,
+                "autoWidth": false,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            let dataCust = "data-custId='" + row.id + "'";
+
+                            EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
+                            return EditProjBtn;
+                        }
+                    },
+                    {
+                        data: "status",
+                        render: function (data, type, row, meta) {
+                            status = "";
+                            if (data == 1) {
+                                status = '<img title="Complete" src="https://img.icons8.com/doodle/48/000000/checkmark.png">'
+                            } else status = '<img title="In progress" src="https://img.icons8.com/ios/50/000000/progress-indicator.png">'
+                            return status;
+                        }
+                    },
+                    { data: "project_name" },
+                    { data: "customer_id" },
+                    { data: "description" },
+                    { data: "create_date" },
+                    { data: "cost" },
+                ]
+            })
+        }
+        
+        function errorfilterCust() {
+            alert("error")
+        }
+       
+        $(document).ready(function () {
+            $("#filterOpt").change(function () {
+                if ($(this).val() === '1') {
+                    document.getElementById('statusDiv').style.display = "block";
+                    document.getElementById('custDiv').style.display = "none";
+                    document.getElementById('priceDiv').style.display = "none";
+
+                }
+                if ($(this).val() === '2') {
+                    document.getElementById('custDiv').style.display = "block";
+                    document.getElementById('statusDiv').style.display = "none";
+                    document.getElementById('priceDiv').style.display = "none";
+
+                }
+                if ($(this).val() === '3') {
+                    document.getElementById('custDiv').style.display = "none";
+                    document.getElementById('statusDiv').style.display = "none";
+                    document.getElementById('priceDiv').style.display = "block";
+                }
+            });
+            
+
+            $("#statusOpt").change(function () {
+                document.getElementById('con').style.display = "none";
+                if ($(this).val() === '1.1') {
+                    Filter = {
+                        status: 0
+                    }
+
+                } else Filter = {
+                    status: 1
+                }
+                ajaxCall("POST", "../api/filter", JSON.stringify(Filter), successfilterstatus, errorfilterstatus);
+
+            });
+
+       
+
+            function errorfilterstatus() {
+                alert("error filtering")
+            }
+            function successfilterstatus(data) {
+                document.getElementById('con').style.display = "none";
+                document.getElementById('filterd').style.display = "block"; 
+                $('#projects_table2').DataTable({
+                    data: data,
+                    "autoWidth": false,
+                    columns: [
+                        {
+                            render: function (data, type, row, meta) {
+                                let dataCust = "data-custId='" + row.id + "'";
+
+                                EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
+                                return EditProjBtn;
+                            }
+                        },
+                        {
+                            data: "status",
+                            render: function (data, type, row, meta) {
+                                status = "";
+                                if (data == 1) {
+                                    status = '<img title="Complete" src="https://img.icons8.com/doodle/48/000000/checkmark.png">'
+                                } else status = '<img title="In progress" src="https://img.icons8.com/ios/50/000000/progress-indicator.png">'
+                                return status;
+                            }
+                        },
+                        { data: "project_name" },
+                        { data: "customer_id" },
+                        { data: "description" },
+                        { data: "create_date" },
+                        { data: "cost" },
+                    ]
+                })
+                }
+        });
+
+
+        
+        
+       
+
     </script>
 </head>
 <body>
     <nav class="navbar navbar-default">
-        <div class="container-fluid" >
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">PriceIT</a>
             </div>
@@ -101,7 +280,49 @@
         </div>
     </nav>
 
-    <div class="container">
+
+
+    <div id="con" class="container">
+
+        <input type="button" value="מיון" class="btn btn-primary btn-lg" onclick="ShowFilter()" />
+        <br />
+        <br />
+
+
+        <div id="filterDiv" class="form-group" style="display:none; background-color:lightblue; border:double; direction:rtl" ;>
+            <label for="filter">מיין לפי </label>
+            <select id='filterOpt' required>
+                <option value=''> בחר</option>
+                <option value='1'>סטטוס</option>
+                <option value='2'> לקוח</option>
+                <option value='3'> מחיר</option>
+            </select>
+            <div id="statusDiv" style="display:none">
+                <label id="filterStat">בחר סטטוס </label>
+                <select id='statusOpt' required>
+                    <option value=''> בחר</option>
+                    <option value='1.1'>בתהליך</option>
+                    <option value='1.2'>הסתיים</option>
+                </select>
+            </div>
+            <div id="custDiv" class="form-group" style="display:none">
+                <label for="custID"> לקוח</label>
+                <input type="text" id="custID" placeholder="שם לקוח" required>
+                <input type="button" value="מיין" onclick="filterCust()" />
+            </div>
+            <div id="priceDiv" class="form-group" style="display:none">
+                <label for="minPrice">סכום החל מ</label>
+                <input type="number" class="form-control" id="minPrice" placeholder="הזן סכום מינימלי" required>
+                <label for="maxPrice">עד</label>
+                <input type="number" class="form-control" id="maxPrice" placeholder="הזן סכום מקסימלי" required>
+                <input type="button" value="מיין" onclick="filterPrice()" />
+
+            </div>
+
+
+        </div>
+        <br />
+
 
         <form id="pForm">
             <table id="projects_table" class="display nowrap" style="width:100%">
@@ -120,6 +341,55 @@
                 </thead>
             </table>
         </form>
+    </div>
+    <br />
+    <br />
+    <div id="filterd" class="container" style="display:none; background-color:lightblue; border:double">
+        <form id="pForm">
+            <button value="Refresh Page" class="btn btn-primary btn-lg" onClick="window.location.href=window.location.href">חזור</button>
+            <br />
+            <br />
+            <table id="projects_table2" class="display nowrap" style="width:100% ">
+                <thead>
+                    <tr>
+                        <th>פעולות </th>
+                        <th>סטטוס </th>
+                        <th> שם פרויקט</th>
+                        <th>מזהה לקוח</th>
+                        <th> תיאור</th>
+                        <th>תאריך יצירה</th>
+                        <th>מחיר</th>
+
+
+                    </tr>
+                </thead>
+            </table>
+        </form>
+
+    </div>
+
+    <div id="filterd2" class="container" style="display:none; background-color:lightblue; border:double">
+        <form id="pForm">
+            <button value="Refresh Page" class="btn btn-primary btn-lg" onClick="window.location.href=window.location.href">חזור</button>
+            <br />
+            <br />
+            <table id="projects_table3" class="display nowrap" style="width:100% ">
+                <thead>
+                    <tr>
+                        <th>פעולות </th>
+                        <th>סטטוס </th>
+                        <th> שם פרויקט</th>
+                        <th>מזהה לקוח</th>
+                        <th> תיאור</th>
+                        <th>תאריך יצירה</th>
+                        <th>מחיר</th>
+
+
+                    </tr>
+                </thead>
+            </table>
+        </form>
+
     </div>
 </body>
 </html>
