@@ -64,6 +64,17 @@
         <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
     </div>-->
             <!--<div class="form-group col-sm-9" >-->
+
+            <div class="form-group">
+                <label for="addExistingItem">Gender</label>
+                <select id="addExistingItem" required></select>
+            </div>
+
+            <div>
+                <button class="btn btn-primary" id="duplicate" onclick="ShowInfo()"> + הוסף ארגזת</button>
+            </div>
+
+
             <div class="form-group col-sm-3">
                 <div class="row item">
                     <div class="form-group col-sm-12" id="itemCost">
@@ -72,8 +83,15 @@
                     </div>
                 </div>
             </div>
-         
+
             <div class="form-group col-sm-9">
+                <div class="row item">
+                    <div class="form-group col-sm-12">
+                        <label for="itemName"><span class="red-star">★ </span>שם / תאור</label>
+                        <input type="text" class="form-control" id="itemName" placeholder="ארגזת" value="ארון מטבח בינוני סטנדרט" min="0" required>
+                    </div>
+
+                </div>
                 <div class="row item">
                     <div class="form-group col-sm-6">
                         <label for="boxMaterial"><span class="red-star">★ </span>סוג החומר</label>

@@ -25,6 +25,7 @@ var myFacadeMaterials;
 var extraCostForItem;
 
 $(document).ready(function () {
+    ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
     ajaxCall("GET", "../api/materials", "", successGetMaterials, error); //get all materials from DB
     ajaxCall("GET", "../api/facades", "", successGetFacades, error);
     ajaxCall("GET", "../api/boxes", "", successGetBoxes, error);
@@ -40,6 +41,14 @@ function error(err) { // this function is activated in case of a failure
     swal("Error: " + err);
 }
 
+
+function successGetItems(itemsdata) {// this function is activated in case of a success
+    //myMaterials = (JSON.stringify(materialsdata));    
+    for (var i = 0; i < itemsdata.length; i++) {
+        $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
+    }
+    console.log("myItems" + " " + itemsdata);
+}
 function successGetMaterials(materialsdata) {// this function is activated in case of a success
     myMaterials = materialsdata;
     //myMaterials = (JSON.stringify(materialsdata));    
@@ -147,6 +156,7 @@ function addItem() {
         ProjectID: 9,
         Type: 1, // 'type' will be always 1 untill we add a different kind of box
         Cost: $("#cost").val(),
+        Name: $("#itemName").val(),
 
         BoxMaterial: $("#boxMaterial").val(),
         BoxMeasures: $("#boxMeasures").val(),

@@ -33,12 +33,7 @@
     <script src="../Scripts/ajaxCallsStub.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
-        $(document).ready(function () {
-            ajaxCall("GET", "../api/items", "", successGetItems, error); //get all materials from DB
 
-    
-            //$("#pForm").submit(f2);
-        });    
         function ShowInfo() {
             $("#info").show();
             
@@ -48,14 +43,6 @@
             swal("Error: " + err);
         }
 
-        function successGetItems(itemsdata) {// this function is activated in case of a success
-
-            //myMaterials = (JSON.stringify(materialsdata));    
-            for (var i = 0; i < itemsdata.length; i++) {
-                $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
-            }
-            console.log("myItems" + " " + itemsdata);
-        }
 
         //לשלוף שם פרויקט
         var proj_name = localStorage.getItem("storageProj_name");
@@ -69,8 +56,7 @@
             parent.location = 'insertItem.html';
         }
         
-
-        
+       
 
     </script>
 </head>
@@ -94,20 +80,11 @@
 
 
     <!-------------------------------------->
-    <!--<div>
-        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
-    </div>-->
-
-    <div class="form-group">
-        <label for="addExistingItem">Gender</label>
-        <select id="addExistingItem" required>
-        </select>
-    </div>
-
-
     <div>
-        <button class="btn btn-primary" id="duplicate" onclick="ShowInfo()"> + הוסף ארגזת</button>
+        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
     </div>
+
+
 
 
     <div id="info" hidden>

@@ -46,8 +46,7 @@ namespace kinarti.Models
         public int ExtraCostForItem { get; set; }
         
         
-
-        public Item(int _id, int _type, float _cost, int _projectID, int _partitions,
+        public Item(int _id, int _type, float _cost, int _projectID, string _name, int _partitions,
                 int _boxMaterialID, int _boxMeasuresID,
                 int _shelves, int _isDistanced, int  _boxWoodDrawers, 
                 int _internalLegraBoxDrawers, int _externalLegraBoxDrawers, 
@@ -59,7 +58,7 @@ namespace kinarti.Models
                 int _handlesQuantity, int _handlesTypeID,
                 int _ironWorksQuantity1, int _ironWorksType1ID,
                 int _ironWorksQuantity2, int _ironWorksType2ID,
-                int _extraCostForItem, string _name)
+                int _extraCostForItem)
         {
             ID = _id;
             ProjectID = _projectID;
