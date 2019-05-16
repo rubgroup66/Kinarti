@@ -22,6 +22,7 @@
             font-size:60px;
         }
     </style>
+    <link href="cssGeneral.css" rel="stylesheet" />
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -70,8 +71,7 @@
             var box_name = $("#box_name").val()
             localStorage.setItem("storageBox_name", box_name);
             parent.location = 'insertItem.html';
-        }
-        
+        }     
        
 
     </script>
@@ -85,17 +85,23 @@
             <ul class="nav navbar-nav">
                 <li><a href="projectsList.html">פרויקטים</a></li>
                 <li><a href="ShowCustomers.html">לקוחות</a></li>
+                <li><a href="editBoxes.html">עדכון עלויות</a></li>
             </ul>
         </div>
     </nav>
     <p id="project_name">Project name</p>
 
-
-
-
     <!-------------------------------------->
     <div>
-        <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
+        <div class="form-group col-sm-12">
+            <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
+            <div class="row item">
+                <div class="form-group col-sm-12" id="itemCost">
+                    <label for="cost">מחיר פרויקט כולל</label>
+                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -111,6 +117,7 @@
                 </div>
 
             </div>
+
 
 
             <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>

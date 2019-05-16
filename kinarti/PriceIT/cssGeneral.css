@@ -20,3 +20,10 @@ button {
 #itemCost {
     position: fixed;
 }
+
+div {
+    direction: rtl;
+}
+.navbar {
+    direction: rtl;
+}
