@@ -9,7 +9,7 @@ button {
 }
 
 .item {
-    right: auto;
+    direction: rtl;
 }
 
 .container {

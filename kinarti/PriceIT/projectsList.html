@@ -53,8 +53,8 @@
                     {
                         render: function (data, type, row, meta) {
                             let dataCust = "data-custId='" + row.id + "'";
-
-                            EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
+                            
+                            EditProjBtn = "<button type='button' id=" + data.projectId+" class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
                             return EditProjBtn;
                         }
                     },
@@ -80,9 +80,9 @@
             swal("Error getting customers");
         }
 
-        $(document).on("click", ".EditProjBtn", function () {
+        $(document).on("click", ".EditProjBtn", function (projectId) {
 
-            parent.location = 'project.html';
+            parent.location = 'project.html?projectId='+projectId;
 
         });
 

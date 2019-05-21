@@ -97,8 +97,7 @@
             <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
             <div class="row item">
                 <div class="form-group col-sm-12" id="itemCost">
-                    <label for="cost">מחיר פרויקט כולל</label>
-                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+
                 </div>
             </div>
         </div>
@@ -107,22 +106,34 @@
 
 
 
-    <div id="info" hidden>
-        <form id="custForm">
-            <div class="form-group row">
 
-                <div class="form-group col-sm-3">
-                    <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
-                    <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
+
+
+
+
+
+
+
+    <div class="form-group col-sm-12">
+        <div id="info" hidden>
+            <form id="custForm">
+                <div class="form-group row item">
+                    <div class="form-group col-sm-4 ">
+                        <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
+                        <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
+                    </div>
                 </div>
+                <br />
+            </form>
+        </div>
 
+        <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
+        <div class="row item">
+            <div class="form-group col-sm-12" id="itemCost">
+                <label for="cost">מחיר פרויקט כולל</label>
+                <input type="number" class="form-control" id="cost" placeholder="0" disabled>
             </div>
-
-
-
-            <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
-        </form>
+        </div>
     </div>
-
 </body>
 </html>
