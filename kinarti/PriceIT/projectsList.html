@@ -46,13 +46,14 @@
         });
 
         function successGetProj(data) {
+            projects = data;
             $('#projects_table').DataTable({
                 data: data,
                 "autoWidth": false,
                 columns: [
                     {
                         render: function (data, type, row, meta) {
-                            let dataCust = "data-custId='" + row.id + "'";
+                            let dataCust = "data-custId='" + row.project_name + "'";
 
                             EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
                             return EditProjBtn;
@@ -73,18 +74,41 @@
                     { data: "description" },
                     { data: "create_date" },
                     { data: "cost" },
-                ]
-            })
+                ],
+            });
+            buttonEvents();
         }
         function errorGetProj(err) {
             swal("Error getting customers");
         }
 
-        $(document).on("click", ".EditProjBtn", function () {
+        function buttonEvents() {
 
-            parent.location = 'project.html';
+            $(document).on("click", ".EditProjBtn", function () {
+                //populatename(this.getAttribute('data-custId'));
+                populatename(this.getAttribute('data-custId'));
+                parent.location = 'project.html';
 
-        });
+            });
+
+            function populatename(project_name) {
+                proj = getProj(project_name);
+                var project_name = proj.project_name;
+
+                localStorage.setItem("storageProj_name", project_name);
+                
+            }
+
+            function getProj(project_name) {
+                for (i in projects) {
+                    if (projects[i].project_name == project_name)
+                        return projects[i];
+                }
+                return null;
+            }
+        }
+
+        
 
         function ShowFilter() {
             document.getElementById('filterDiv').style.display = "block";
@@ -117,7 +141,7 @@
                 columns: [
                     {
                         render: function (data, type, row, meta) {
-                            let dataCust = "data-custId='" + row.id + "'";
+                            let dataCust = "data-custId='" + row.project_name + "'";
 
                             EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
                             return EditProjBtn;
@@ -138,8 +162,9 @@
                     { data: "description" },
                     { data: "create_date" },
                     { data: "cost" },
-                ]
-            })
+                ],
+            }),
+                buttonEvents();
         }
         
         function errorfilterPrice() {
@@ -155,7 +180,7 @@
                 columns: [
                     {
                         render: function (data, type, row, meta) {
-                            let dataCust = "data-custId='" + row.id + "'";
+                            let dataCust = "data-custId='" + row.project_name + "'";
 
                             EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
                             return EditProjBtn;
@@ -176,8 +201,9 @@
                     { data: "description" },
                     { data: "create_date" },
                     { data: "cost" },
-                ]
-            })
+                ],
+            }),
+                buttonEvents();
         }
         
         function errorfilterCust() {
@@ -234,7 +260,7 @@
                     columns: [
                         {
                             render: function (data, type, row, meta) {
-                                let dataCust = "data-custId='" + row.id + "'";
+                                let dataCust = "data-custId='" + row.project_name + "'";
 
                                 EditProjBtn = "<button type='button' class = 'EditProjBtn btn btn-success' " + dataCust + "> Edit project </button>";
                                 return EditProjBtn;
@@ -255,10 +281,12 @@
                         { data: "description" },
                         { data: "create_date" },
                         { data: "cost" },
-                    ]
-                })
+                    ],
+                }),
+                    buttonEvents();
                 }
         });
+
 
 
         
