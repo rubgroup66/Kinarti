@@ -1023,8 +1023,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')", proj.project_name, proj.description , proj.architect, proj.supervisor , proj.customer_id , 0 );
-        String prefix = "INSERT INTO Project2 " + "(project_name, description, architect, supervisor, custID, status ) ";
+        sb.AppendFormat("Values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6})", proj.project_name, proj.description , proj.architect, proj.supervisor , proj.customer_id , 0, proj.ID);
+        String prefix = "INSERT INTO Project2 " + "(project_name, description, architect, supervisor, custID, status, id) ";
 
         command = prefix + sb.ToString() + ";" + "SELECT CAST(scope_identity() AS int)";
 
@@ -1060,6 +1060,7 @@ public class DBservices
             {// Read till the end of the data into a row
              // read first field from the row into the list collection
                 Project project = new Project();
+                project.ID = Convert.ToInt32(dr["id"]);
                 project.project_name = Convert.ToString(dr["project_name"]);
                 //project.create_date = Convert.ToDateTime(dr["create_date"]);
                 project.description = Convert.ToString(dr["description"]);

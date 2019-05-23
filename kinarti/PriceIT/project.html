@@ -34,11 +34,48 @@
     <script src="../Scripts/ajaxCallsStub.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
+
+
+        //function getParameterByID(id, url) {
+        //    if (!url) url = window.location.href;
+        //    id = id.replace(/[\[\]]/g, '\\$&');
+        //    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        //        results = regex.exec(url);
+        //    if (!results) return null;
+        //    if (!results[2]) return '';
+        //    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        //}
+
+        //$(document).ready(function () {    //get all hobbies from DB
+        //    var id = getParameterByID("id")
+
+        //    if (email && password) {
+
+        //        uri = "../api/persons/?email=" + email + "&password=" + password;
+
+        //        ajaxCall("GET", "../api/hobbies", "", successGetHobbies, errorGetHobbies);
+
+        //        ajaxCall("GET", uri, "", successGetPersons, errorGetPersons);
+        //    }
+        //    else
+        //        ajaxCall("GET", "../api/hobbies", "", successGetHobbies, errorGetHobbies);
+
+        //    $("#pForm").submit(f2);
+        //});
+
+
+
         $(document).ready(function () {
             ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
-
+            ajaxCall("GET", "../api/project", "", successGetProject, error); //get all saved items from DB
         });
 
+        function successGetProjects(projectdata) {// this function is activated in case of a success
+            //for (var i = 0; i < myItems.length; i++) {
+            //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
+            //}
+            console.log(projectdata);
+        }
 
         function error(err) { // this function is activated in case of a failure
             swal("Error: " + err);
@@ -48,7 +85,7 @@
             //for (var i = 0; i < myItems.length; i++) {
             //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
             //}
-            console.log("myItems" + " " + myItems);
+            console.log(myItems);
         }
 
         function ShowInfo() {
@@ -84,7 +121,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="projectsList.html">פרויקטים</a></li>
-                <li><a href="ShowCustomers.html">לקוחות</a></li>
+                <li><a href="showCustomers.html">לקוחות</a></li>
                 <li><a href="editBoxes.html">עדכון עלויות</a></li>
             </ul>
         </div>

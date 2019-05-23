@@ -14,6 +14,7 @@ namespace kinarti.Models
 {
     public class Project
     {
+        public int ID { get; set; }
         public string project_name { get; set; }
         public DateTime create_date { get; set; }
         public string description { get; set; }
@@ -23,8 +24,9 @@ namespace kinarti.Models
         public string architect { get; set; }
         public string supervisor { get; set; }
 
-        public Project(string _project_name, DateTime _create_date, string _description, int _cost, int _status, int _customer_id, string _architect, string _supervisor)
+        public Project(string _project_name, DateTime _create_date, string _description, int _cost, int _status, int _customer_id, string _architect, string _supervisor, int _projectID)
         {
+            ID = _projectID;
             project_name = project_name;
             create_date = _create_date;
             description = _description;
