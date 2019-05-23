@@ -104,10 +104,10 @@ namespace kinarti.Models
         //--------------------------------------------------------------------------
         // get the list of the persons
         //--------------------------------------------------------------------------
-        public List<Item> getItems()
+        public List<Item> getItems(int itemID)
         {
             DBservices dbs = new DBservices();
-            List<Item> lp = dbs.getItems("PriceITConnectionString", "itemTbl1");
+            List<Item> lp = dbs.getItems("PriceITConnectionString", "itemTbl1", itemID);
             return lp;
         }
 

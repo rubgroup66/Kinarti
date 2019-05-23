@@ -1349,14 +1349,14 @@ public class DBservices
         return prefix; 
     }
 
-    public List<Item> getItems(string conString, string tableName)
+    public List<Item> getItems(string conString, string tableName, int id)
     {
         SqlConnection con = null;
         List<Item> lm = new List<Item>();
         try
         {
             con = connect(conString); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * FROM " + tableName;
+            String selectSTR = "SELECT * FROM " + tableName + " WHERE id = " + id;
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             // get a reader

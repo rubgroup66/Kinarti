@@ -12,21 +12,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 
     <style type="text/css">
-
         button {
             margin-left: 10px;
         }
-        img {
-            
-            
-        }
-
         hover span {
             display: block;
-        }
-        
+        }    
     </style>
-
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,13 +26,11 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
         $(document).ready(function () {
             // once the document is ready we fetch a list of customers from the server
-            ajaxCall("GET", "../api/proj", "", successGetProj, errorGetProj);
-            
+            ajaxCall("GET", "../api/proj", "", successGetProj, errorGetProj);         
         });
 
         function successGetProj(data) {

@@ -35,42 +35,28 @@
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
 
-
-        //function getParameterByID(id, url) {
-        //    if (!url) url = window.location.href;
-        //    id = id.replace(/[\[\]]/g, '\\$&');
-        //    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        //        results = regex.exec(url);
-        //    if (!results) return null;
-        //    if (!results[2]) return '';
-        //    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        //}
-
-        //$(document).ready(function () {    //get all hobbies from DB
-        //    var id = getParameterByID("id")
-
-        //    if (email && password) {
-
-        //        uri = "../api/persons/?email=" + email + "&password=" + password;
-
-        //        ajaxCall("GET", "../api/hobbies", "", successGetHobbies, errorGetHobbies);
-
-        //        ajaxCall("GET", uri, "", successGetPersons, errorGetPersons);
-        //    }
-        //    else
-        //        ajaxCall("GET", "../api/hobbies", "", successGetHobbies, errorGetHobbies);
-
-        //    $("#pForm").submit(f2);
-        //});
-
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
 
 
         $(document).ready(function () {
-            ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
-            ajaxCall("GET", "../api/project", "", successGetProject, error); //get all saved items from DB
+            //get all hobbies from DB
+            var itemID = getParameterByName("projectId");
+            console.log(itemID);
+            uri = "../api/items/?item=" + itemID;
+
+            ajaxCall("GET", uri, "", successGetItems, error);
         });
 
-        function successGetProject(projectdata) {// this function is activated in case of a success
+
+        function successGetItems(projectdata) {// this function is activated in case of a success
             //for (var i = 0; i < myItems.length; i++) {
             //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
             //}
@@ -81,11 +67,11 @@
             swal("Error: " + err);
         }
         function successGetItems(itemsdata) {// this function is activated in case of a success
-            myItems = itemsdata;
+            
             //for (var i = 0; i < myItems.length; i++) {
             //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
             //}
-            console.log(myItems);
+            console.log(itemsdata);
         }
 
         function ShowInfo() {
