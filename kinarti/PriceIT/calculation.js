@@ -197,7 +197,7 @@ function returenToProject() {
 
 function addItem() {
     Item = {
-        ProjectID: 9,
+        ProjectID: 11,
         Type: 1, // 'type' will be always 1 untill we add a different kind of box
         Cost: $("#cost").val(),
         Name: $("#itemName").val(),

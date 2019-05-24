@@ -30,7 +30,8 @@
     <script>
         $(document).ready(function () {
             // once the document is ready we fetch a list of customers from the server
-            ajaxCall("GET", "../api/proj", "", successGetProj, errorGetProj);         
+            ajaxCall("GET", "../api/proj", "", successGetProj, errorGetProj);
+            
         });
 
         function successGetProj(data) {
@@ -346,8 +347,6 @@
                         <th> תיאור</th>
                         <th>תאריך יצירה</th>
                         <th>מחיר</th>
-
-
                     </tr>
                 </thead>
             </table>
@@ -370,8 +369,6 @@
                         <th> תיאור</th>
                         <th>תאריך יצירה</th>
                         <th>מחיר</th>
-
-
                     </tr>
                 </thead>
             </table>

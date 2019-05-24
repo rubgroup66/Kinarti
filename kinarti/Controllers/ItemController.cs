@@ -17,10 +17,10 @@ namespace kinarti.Controllers
     {
         [System.Web.Http.HttpGet]
         [Route("api/items")]
-        public IEnumerable<Item> GeItem(int id)
+        public IEnumerable<Item> GeItem(int item)
         {
-            Item item = new Item();
-            List<Item> lm = item.getItems(id);
+            Item newitem = new Item();
+            List<Item> lm = newitem.getItems(item);
             return lm;
         }
 
