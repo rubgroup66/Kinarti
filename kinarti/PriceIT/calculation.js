@@ -25,7 +25,7 @@ var itemsdata;
 var extraCostForItem;
 
 $(document).ready(function () {
-    ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
+   // ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
     ajaxCall("GET", "../api/materials", "", successGetMaterials, error); //get all materials from DB
     ajaxCall("GET", "../api/facades", "", successGetFacades, error);
     ajaxCall("GET", "../api/boxes", "", successGetBoxes, error);

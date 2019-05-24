@@ -230,7 +230,7 @@
     <Content Include="PriceIT\old\insert.html" />
     <Content Include="PriceIT\insertMaterial.html" />
     <Content Include="PriceIT\project.html" />
-    <Content Include="PriceIT\showProjects.html" />
+    <Content Include="PriceIT\projectsList.html" />
     <Content Include="PriceIT\old\viewProjects.html" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\ajaxCallsStub.js" />
