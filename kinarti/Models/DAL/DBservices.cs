@@ -1413,6 +1413,245 @@ public class DBservices
             }
         }
     }
+    //========================================login===================================//
+
+    public User Exist(string conString, string tableName, int Id, string Password)
+    {
+
+        SqlConnection con = null;
+        User u = new User();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "SELECT * FROM " + tableName + " WHERE id='" + Id + "' AND " + "password='" + Password + "'";
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                u.Id = Convert.ToInt32(dr["Id"]);
+                u.Name = Convert.ToString(dr["Name"]);
+                u.Password= Convert.ToString(dr["Password"]);
+                u.UserType = Convert.ToString(dr["UserType"]);
+                u.Active = Convert.ToInt32(dr["Active"]);
+            }
+
+            return u;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+
+        }
+
+    }
+
+    public int InsertUser(User u)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildInsertCommand(u);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
 
 
+        try
+        {
+            int numAffected = cmd.ExecuteNonQuery();
+            return numAffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+        
+    }
+    private String BuildInsertCommand(User u)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        sb.AppendFormat("Values({0},'{1}','{2}','{3}',{4}, '{5}')", u.Id, u.Password, u.UserType, 1, u.Name);
+        String prefix = "INSERT INTO Users" + "(id, password, UserType, Active, name)";
+        command = prefix + sb.ToString();
+        return command;
+    }
+
+    public List<User> GetAllUsers(string conString, string tableName)
+    {
+
+        SqlConnection con = null;
+        List<User> lu = new List<User>();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "SELECT * FROM " + tableName  ;
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                User u = new User();
+                u.Id = Convert.ToInt32(dr["Id"]);
+                u.Name = Convert.ToString(dr["Name"]);
+                u.Password = Convert.ToString(dr["Password"]);
+                u.UserType = Convert.ToString(dr["UserType"]);
+                u.Active = Convert.ToInt32(dr["Active"]);
+               
+                lu.Add(u);
+            }
+
+            return lu;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+    public void DeleteUser(int userID)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildDeleteUser(userID);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+
+        try
+        {
+            cmd.ExecuteNonQuery(); // execute the comm
+
+
+        }
+        catch (Exception ex)
+        {
+
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    private string BuildDeleteUser(int userID)
+    {
+        string cmdStr = "UPDATE Users SET Active=0 WHERE id='" + userID + "'";
+        return cmdStr;
+    }
+
+    public int Put(User u)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("PriceITConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildUpdateUser(u);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+
+
+
+        }
+        catch (Exception ex)
+        {
+
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    private string BuildUpdateUser(User u)
+    {
+        string v = "UPDATE Users SET name='" + u.Name + "' ,password='" + u.Password + "' ,UserType='" + u.UserType + "' ,Active='" + u.Active + "' WHERE id='" + u.Id + "'";
+        string cmdStr = v;
+        return cmdStr;
+
+    }
 }
