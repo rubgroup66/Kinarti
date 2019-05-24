@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Web.Configuration;
 using System.Data;
 
-using System.Text;
+using System.Text;  
 
 
 namespace kinarti.Models
@@ -17,11 +17,11 @@ namespace kinarti.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public string UserType { get; set; }
+        public int UserType { get; set; }
         public int Active { get; set; }
 
 
-        public User(int _Id, string _Name ,string _Password, string _UserType, int _Active)
+        public User(int _Id, string _Name ,string _Password, int _UserType, int _Active)
         {
             Id = _Id; ;
             Name = _Name;
@@ -56,7 +56,7 @@ namespace kinarti.Models
             return dbs.GetAllUsers("PriceITConnectionString", "Users");
         }
 
-        public void DeleteUser(int userID)
+        public void DeleteUser(string userID)
         {
             DBservices dbs = new DBservices();
             dbs.DeleteUser(userID);

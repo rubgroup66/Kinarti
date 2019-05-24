@@ -1435,7 +1435,7 @@ public class DBservices
                 u.Id = Convert.ToInt32(dr["Id"]);
                 u.Name = Convert.ToString(dr["Name"]);
                 u.Password= Convert.ToString(dr["Password"]);
-                u.UserType = Convert.ToString(dr["UserType"]);
+                u.UserType = Convert.ToInt32(dr["UserType"]);
                 u.Active = Convert.ToInt32(dr["Active"]);
             }
 
@@ -1506,7 +1506,7 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values({0},'{1}','{2}','{3}',{4}, '{5}')", u.Id, u.Password, u.UserType, 1, u.Name);
+        sb.AppendFormat("Values({0},'{1}',{2},{3},'{4}')", u.Id, u.Password, u.UserType, u.Active, u.Name);
         String prefix = "INSERT INTO Users" + "(id, password, UserType, Active, name)";
         command = prefix + sb.ToString();
         return command;
@@ -1533,7 +1533,7 @@ public class DBservices
                 u.Id = Convert.ToInt32(dr["Id"]);
                 u.Name = Convert.ToString(dr["Name"]);
                 u.Password = Convert.ToString(dr["Password"]);
-                u.UserType = Convert.ToString(dr["UserType"]);
+                u.UserType = Convert.ToInt32(dr["UserType"]);
                 u.Active = Convert.ToInt32(dr["Active"]);
                
                 lu.Add(u);
@@ -1554,7 +1554,7 @@ public class DBservices
             }
         }
     }
-    public void DeleteUser(int userID)
+    public void DeleteUser(string userID)
     {
 
         SqlConnection con;
@@ -1599,9 +1599,9 @@ public class DBservices
         }
 
     }
-    private string BuildDeleteUser(int userID)
+    private string BuildDeleteUser(string userID)
     {
-        string cmdStr = "UPDATE Users SET Active=0 WHERE id='" + userID + "'";
+        string cmdStr = "DELETE FROM Users  WHERE id='" + userID + "'";
         return cmdStr;
     }
 

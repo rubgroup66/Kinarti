@@ -99,7 +99,7 @@
         // Delete a car from the server
         function DeleteCust(custId) {
             let id = custId;
-            ajaxCall("DELETE", "../api/deleteCust/" + custId, JSON.stringify(id), deleteSuccess, error);
+            ajaxCall("DELETE", "../api/customers/" + custId, JSON.stringify(id), deleteSuccess, error);
         }
 
         function onSubmitFunc() {
@@ -237,8 +237,9 @@
                 <a class="navbar-brand" href="#">PriceIT</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="showProjects.html">פרויקטים</a></li>
+                <li><a href="projectsList.html">פרויקטים</a></li>
                 <li class="active"><a href="ShowCustomers.html">לקוחות</a></li>
+                <li><a href="users.html">ניהול משתמשים</a></li>
                 <li><a href="editBoxes.html">עדכון עלויות</a></li>
 
             </ul>

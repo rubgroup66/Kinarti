@@ -49,9 +49,6 @@ namespace kinarti.Controllers
             string custID = project_name;
             Customer cust = new Customer();
             cust.DeleteCust(custID);
-
-
-
         }
 
 
