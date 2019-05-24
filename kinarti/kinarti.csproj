@@ -198,6 +198,7 @@
     <Compile Include="Models\Material2.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\user.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
