@@ -102,13 +102,19 @@ namespace kinarti.Models
             return numAffected;
         }
         //--------------------------------------------------------------------------
-        // get the list of the persons
+        // get the list of the items
         //--------------------------------------------------------------------------
-        public List<Item> getItems(int itemID)
+        public List<Item> getItems(int projectID)
         {
             DBservices dbs = new DBservices();
-            List<Item> lp = dbs.getItems("PriceITConnectionString", "itemTbl1", itemID);
+            List<Item> lp = dbs.getItems("PriceITConnectionString", "itemTbl1", projectID);
             return lp;
+        }
+
+        public Item getItem(int projectID, int itemID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getItem("PriceITConnectionString", "itemTbl1", projectID, itemID);
         }
 
         public int updateItem(int Id)

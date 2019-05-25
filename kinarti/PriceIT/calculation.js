@@ -24,8 +24,30 @@ var myFacadeMaterials;
 var itemsdata;
 var extraCostForItem;
 
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
 $(document).ready(function () {
-   // ajaxCall("GET", "../api/items", "", successGetItems, error); //get all saved items from DB
+
+    var itemID = getParameterByName("itemId");
+    var projectID = getParameterByName("projectId");
+    console.log(itemID);
+    console.log(projectID);
+
+    uri = "../api/items/?item=" + itemID + "&project=" + projectID; //get the specific item from DB
+    ajaxCall("GET", uri, "", successGetItem, error);
+
+    //ajaxCall("GET", "../api/item", "", successGetItem, error);
+
     ajaxCall("GET", "../api/materials", "", successGetMaterials, error); //get all materials from DB
     ajaxCall("GET", "../api/facades", "", successGetFacades, error);
     ajaxCall("GET", "../api/boxes", "", successGetBoxes, error);

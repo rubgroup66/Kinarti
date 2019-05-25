@@ -17,23 +17,21 @@ namespace kinarti.Controllers
     {
         [System.Web.Http.HttpGet]
         [Route("api/items")]
-        public IEnumerable<Item> GeItem(int item)
+        public Item GetItem(int projectID, int itemID)
         {
-            Item newitem = new Item();
-            List<Item> lm = newitem.getItems(item);
-            return lm;
+            Item item = new Item();
+            return item.getItem(projectID, itemID); 
         }
 
         //get all relevant items
-        //[System.Web.Http.HttpGet]
-        //[Route("api/items")]
-        //public IEnumerable<Item> GeItems()
-        //{
-        //    Item item = new Item();
-        //    List<Item> lm = item.getItems();
-        //    return lm;
-        //}
-
+        [System.Web.Http.HttpGet]
+        [Route("api/items")]
+        public IEnumerable<Item> GeItems(int projectID)
+        {
+            Item item = new Item();
+            List<Item> lm = item.getItems(projectID);
+            return lm;
+        }
 
         // POST api/values
         [HttpPost]

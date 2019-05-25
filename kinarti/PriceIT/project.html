@@ -36,6 +36,7 @@
     <script src="../Scripts/ajaxCallsStub.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script>
+        var totalCost;
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, '\\$&');
@@ -45,30 +46,36 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
-
+        var projectID;
         $(document).ready(function () {
-            //get all hobbies from DB
-            var itemID = getParameterByName("projectId");
-            console.log(itemID);
-
-            uri = "../api/items/?item=" + itemID;
+            //get all relevant items from DB
+            /*var*/ projectID = getParameterByName("projectId");
+            console.log(projectID);
+            uri = "../api/items/?projectID=" + projectID;
             ajaxCall("GET", uri, "", successGetItems, error);
+        });
+
+        $(document).on("click", ".editItem", function (event) {
+            window.location.href = 'insertItem.html?projectId=' + projectID + "&itemId=" + event.target.id;
+
         });
 
         function error(err) { // this function is activated in case of a failure
             swal("Error: " + err);
         }
-        function successGetItems(itemsdata) {// this function is activated in case of a success
-            
+        function successGetItems(itemsdata) {// this function is activated in case of a success            
             //for (var i = 0; i < myItems.length; i++) {
             //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
             //}
             for (var i = 0; i < itemsdata.length; i++) {             
                 // $('#accordion').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
-                $('#accordion').append('<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' + (i + 1) + '">פריט ' + (i + 1) + ':' + itemsdata[i].Name + '<button type="button" id=btn' + itemsdata.ID + ' onClick="goEditItem()" class = "EditProjBtn btn btn - success editItem"> עריכת פריט </button> </a></h4></div ><div id="collapse' + (i + 1) + '" class="panel-collapse collapse"><div class="panel-body">מחיצות:' + itemsdata[i].Partitions + '</div></div></div >');
+                $('#accordion').append('<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' + (i + 1) + '">פריט ' + (i + 1) + ': ' + itemsdata[i].Name + ', עלות: ' + itemsdata[i].Cost + '<button type="button" id=' + itemsdata[i].ID + ' onClick="goEditItem()" class = "EditProjBtn btn btn - success editItem"> עריכת פריט </button> </a></h4></div ><div id="collapse' + (i + 1) + '" class="panel-collapse collapse"><div class="panel-body">מחיצות:' + itemsdata[i].Partitions + '</div></div></div >');
+                console.log(itemsdata[i].Cost); 
+                totalCost = totalCost + itemsdata[i].Cost;
             }
             //"<button type='button' id=btn" + itemsdata.ID + " class = 'EditProjBtn btn btn-success'> עריכת פריט </button>";
-
+            $("#cost").val(totalCost);
+            console.log(totalCost);
             console.log(itemsdata);           
         }
 
@@ -114,107 +121,100 @@
         </div>
     </nav>
 
-
-
-
     <div class="container">
-
-
         <p id="project_name">Project name</p>
 
-        <!-------------------------------------->
-        <div>
-            <div class="form-group col-sm-12">
-                <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
-                <div class="row item">
-                    <div class="form-group col-sm-12" id="cost">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
+        <!--<div>
         <div class="form-group col-sm-12">
-            <div id="info" hidden>
-                <form id="custForm">
-                    <div class="form-group row item">
-                        <div class="form-group col-sm-4 ">
-                            <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
-                            <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
-                        </div>
-                    </div>
-                    <br />
-                </form>
-            </div>
-
-            <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
-
+            <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
             <div class="row item">
-                <div class="form-group col-sm-3" id="itemCost">
-                    <label for="cost">מחיר פרויקט כולל</label>
-                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+                <div class="form-group col-sm-12" id="cost">
+
                 </div>
             </div>
-
         </div>
+    </div>-->
+        <!--<div class="form-group col-sm-12">-->
+        <!--<div id="info" hidden>
+        <form id="custForm">
+            <div class="form-group row item">
+                <div class="form-group col-sm-4 ">
+                    <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
+                    <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>-->
+        <!--<input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
 
+    <div class="row item">
+        <div class="form-group col-sm-3" id="itemCost">
+            <label for="cost">מחיר פרויקט כולל</label>
+            <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+        </div>
+    </div>-->
+        <!--</div>-->
 
-
-
-
-
-
-
+        <div class="row item">
+            <!--<div class="form-group col-sm-12" id="itemCost">-->
+            <label for="cost">מחיר כולל</label>
+            <input type="number" class="form-control col-sm-3" id="cost" placeholder="0" disabled>
+            <!--</div>-->
+        </div>
+        <br />
+        <div class="row item">
+            <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
+        </div>
+        <br />
         <div class="panel-group" id="accordion">
-            <!--<div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            Collapsible Group Item #1
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                            Collapsible Group Item #2
-                        </a>
-                    </h4>
-                </div>
 
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
+            <!--<div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Collapsible Group Item #1
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                            Collapsible Group Item #3
-                        </a>
-                    </h4>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Collapsible Group Item #2
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        Collapsible Group Item #3
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 </div>
-            </div>-->
+            </div>
+        </div>-->
         </div>
 
-
+        <button type="submit" class="btn btn-success btn-lg" id="completeProject">סיום תמחור</button>
     </div> <!-- end container -->
 </body>
 </html>

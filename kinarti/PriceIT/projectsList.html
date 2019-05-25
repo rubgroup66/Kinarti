@@ -40,8 +40,7 @@
                 columns: [
                     {
                         render: function (data, type, row, meta) {
-                            let dataCust = "data-custId='" + row.id + "'";
-                            
+                            let dataCust = "data-custId='" + row.id + "'";                         
                             EditProjBtn = "<button type='button' id=" + row.ID + " class = 'EditProjBtn btn btn-success' " + dataCust + "> עריכת פרויקט </button>";
                             return EditProjBtn;
                         }
