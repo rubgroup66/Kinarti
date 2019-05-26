@@ -211,8 +211,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="PriceIT\AddNewProject.html" />
+    <Content Include="PriceIT\calculation - Copy.js" />
     <Content Include="PriceIT\cssGeneral.css" />
     <Content Include="PriceIT\editItem.html" />
+    <Content Include="PriceIT\old\project2.html" />
     <Content Include="PriceIT\showCustomers.html" />
     <Content Include="PriceIT\insertBox.html" />
     <Content Include="PriceIT\editConstants2.html" />
@@ -223,7 +225,7 @@
     <Content Include="PriceIT\old\editConstants.html" />
     <Content Include="PriceIT\editHandles.html" />
     <Content Include="PriceIT\editBoxes.html" />
-    <Content Include="PriceIT\calculation.js" />
+    <Content Include="PriceIT\old\calculation2.js" />
     <Content Include="PriceIT\old\addEnsemble.html" />
     <Content Include="PriceIT\old\addOpenEnsemble.html" />
     <Content Include="PriceIT\edit - class Ex TABLE.html" />

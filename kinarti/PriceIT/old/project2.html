@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PriceIT</title>
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+    <style type="text/css">
+
+        button {
+            margin-left: 10px;
+        }
+
+        #project_name{
+            background-color:lightgrey;
+            font-size:60px;
+
+
+        }
+    </style>
+
+    <link href="cssGeneral.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../Scripts/ajaxCallsStub.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script>
+        var totalCost;
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        var projectID;
+        $(document).ready(function () {
+            //get all relevant items from DB
+            /*var*/ projectID = getParameterByName("projectId");
+            console.log(projectID);
+            uri = "../api/items/?projectID=" + projectID;
+            ajaxCall("GET", uri, "", successGetItems, error);
+        });
+
+        $(document).on("click", ".editItem", function (event) {
+            window.location.href = 'editItem.html?projectId=' + projectID + "&itemId=" + event.target.id;
+
+        });
+
+        function error(err) { // this function is activated in case of a failure
+            swal("Error: " + err);
+        }
+        function successGetItems(itemsdata) {// this function is activated in case of a success            
+            //for (var i = 0; i < myItems.length; i++) {
+            //    $('#addExistingItem').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
+            //}
+            for (var i = 0; i < itemsdata.length; i++) {             
+                // $('#accordion').append('<option value="' + itemsdata[i].ID + '" >' + itemsdata[i].Name + '</option>');
+                $('#accordion').append('<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' + (i + 1) + '">פריט ' + (i + 1) + ': ' + itemsdata[i].Name + ', עלות: ' +
+                    itemsdata[i].Cost + '   <button type="button" id=' + itemsdata[i].ID + ' onClick="goEditItem()" class = "editBtn btn btn-success editItem"> עריכה </button>' + '<button type="button" class = "deleteBtn btn btn-danger deleteItem"> מחיקה </button></a ></h4 ></div > <div id="collapse' + (i + 1) + '" class="panel-collapse collapse"><div class="panel-body">מחיצות:' + itemsdata[i].Partitions + '</div></div></div > ');
+                
+                    console.log(itemsdata[i].Cost); 
+                totalCost = totalCost + itemsdata[i].Cost;
+            }
+            //"<button type='button' id=btn" + itemsdata.ID + " class = 'EditProjBtn btn btn-success'> עריכת פריט </button>";
+            $("#cost").val(totalCost);
+            console.log(totalCost);
+            console.log(itemsdata);           
+        }
+
+        function ShowInfo() {
+            $("#info").show();
+            
+        }
+
+        function error(err) { // this function is activated in case of a failure
+            swal("Error: " + err);
+        }
+
+
+        //לשלוף שם פרויקט
+        var proj_name = localStorage.getItem("storageProj_name");
+        function getName() {
+            document.getElementById("project_name").innerHTML = proj_name;
+        }
+        //שמור שם ארגזת
+        function createBox() {
+            var box_name = $("#box_name").val()
+            localStorage.setItem("storageBox_name", box_name);
+            parent.location = 'insertItem.html';
+        }     
+
+        function goEditItem() {
+            location.href = "insertItem.html";
+        }
+        // Delete item from the server
+        function DeleteCar(id) {
+            ajaxCall("DELETE", "../api/cars/" + id, "", deleteSuccess, error);
+        }
+
+       
+        }
+    </script>
+</head>
+<body onload="getName()">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PriceIT</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="projectsList.html">פרויקטים</a></li>
+                <li><a href="showCustomers.html">לקוחות</a></li>
+                <li><a href="editBoxes.html">עדכון עלויות</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <p id="project_name">Project name</p>
+
+        <!--<div>
+        <div class="form-group col-sm-12">
+            <button class="btn btn-info" onclick="ShowInfo()"> + הוסף ארגזת חדשה</button>
+            <div class="row item">
+                <div class="form-group col-sm-12" id="cost">
+
+                </div>
+            </div>
+        </div>
+    </div>-->
+        <!--<div class="form-group col-sm-12">-->
+        <!--<div id="info" hidden>
+        <form id="custForm">
+            <div class="form-group row item">
+                <div class="form-group col-sm-4 ">
+                    <label for="box_name"><span class="red-star">★ </span>שם ארגזת</label>
+                    <input type="text" class="form-control" id="box_name" placeholder="Enter the box name" required>
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>-->
+        <!--<input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
+
+    <div class="row item">
+        <div class="form-group col-sm-3" id="itemCost">
+            <label for="cost">מחיר פרויקט כולל</label>
+            <input type="number" class="form-control" id="cost" placeholder="0" disabled>
+        </div>
+    </div>-->
+        <!--</div>-->
+
+        <div class="row item">
+            <!--<div class="form-group col-sm-12" id="itemCost">-->
+            <label for="cost">מחיר כולל</label>
+            <input type="number" class="form-control col-sm-3" id="cost" placeholder="0" disabled>
+            <!--</div>-->
+        </div>
+        <br />
+        <div class="row item">
+            <input type=button class="btn btn-primary btn-lg" onClick="createBox()" value='צור ארגזת'>
+        </div>
+        <br />
+        <div class="panel-group" id="accordion">
+
+            <!--<div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Collapsible Group Item #1
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Collapsible Group Item #2
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        Collapsible Group Item #3
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>-->
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg" id="completeProject">סיום תמחור</button>
+    </div> <!-- end container -->
+</body>
+</html>
