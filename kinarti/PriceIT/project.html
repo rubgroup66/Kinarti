@@ -8,15 +8,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script src="calculation.js"></script>
     <style type="text/css">
         button {
             margin-left: 10px;
         }
-        #project_name{
-            background-color:lightgrey;
-            font-size:60px;
-        }
+        /*#project_name {
+            background-color: lightgrey;
+            font-size: 60px;
+        }*/
     </style>
     <link href="cssGeneral.css" rel="stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -27,9 +26,9 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../Scripts/ajaxCallsStub.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
-    <script src="old/calculation2.js"></script>
+    <script src="calculation.js"></script>
 </head>
-<body onload="getName()">
+<body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -43,16 +42,20 @@
         </div>
     </nav>
     <div class="container">
-        <input type="button" value="New" class="btn btn-primary btn-lg" id="newBTN" />
+        <div class="form-group col-sm-12">
+            <label for="itemName"><span class="red-star"></span>שם הפרויקט</label>
+            <input type="text" class="form-control" id="project_name" placeholder="שם הפרויקט" min="0" required disabled>
+        </div>
+        <input type="button" value="הוסף פריט" class="btn btn-primary btn-lg" id="newBTN" />
         <form id="pForm">
-            <table id="itemsTable" class="display nowrap" style="width:100%">
+            <table id="itemsTable" class="display nowrap" style="width:80%">
                 <thead>
                     <tr>
                         <th></th>
                         <th>מחיר</th>
-                        <th>תאור</th>                        
+                        <th>תאור</th>
                         <th>שם פריט</th>
-                        <th>מספר</th>                     
+                        <th>מספר</th>
                     </tr>
                 </thead>
             </table>
@@ -61,7 +64,7 @@
         <div id="editDiv">
             <form id="pForm">
                 <div id="projectName"> </div>
-                <p id="project_name" style="background-color:grey">project name</p>
+                <!--<p id="" style="background-color:grey">project name</p>-->
                 <!--<p id="box_name" style="background-color:lightgrey">שם ארגזת</p>-->
                 <p class="bg-info">תמחור ארגזת</p>
                 <br />
@@ -76,21 +79,19 @@
                 <div class="form-group col-sm-9">
                     <div class="row item">
                         <!--<div class="form-group col-sm-6">
-                    <label for="addExistingItem"><span class="red-star">★ </span>שכפול פריט קיים</label>
-                    <select id="addExistingItem" class="form-control"  onblur="calculateItem()" onchange="fillInputs(this)">
-                    </select>
-                </div>-->
+                        <label for="addExistingItem"><span class="red-star">★ </span>שכפול פריט קיים</label>
+                        <select id="addExistingItem" class="form-control"  onblur="calculateItem()" onchange="fillInputs(this)">
+                        </select>
+                    </div>-->
                         <div class="form-group col-sm-12">
                             <label for="itemName"><span class="red-star">★ </span>שם / תאור</label>
                             <input type="text" class="form-control" id="itemName" placeholder="ארגזת" value="ארון מטבח בינוני סטנדרט" min="0" required>
                         </div>
-
                     </div>
                     <div class="row item">
                         <div class="form-group col-sm-6">
                             <label for="boxMaterial"><span class="red-star">★ </span>סוג החומר</label>
-                            <select id="boxMaterial" class="form-control" required>
-                            </select>
+                            <select id="boxMaterial" class="form-control" required></select>
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="boxMeasures"><span class="red-star">★ </span>מידות</label>
@@ -143,8 +144,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label for="facadeMaterialType"><span class="red-star">★ </span>סוג חומר גמר</label>
-                            <select id="facadeMaterialType" class="form-control" required onchange="calculateItem()">
-                            </select>
+                            <select id="facadeMaterialType" class="form-control" required onchange="calculateItem()"></select>
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="facadeType"><span class="red-star">★ </span>סוג גמר</label>
