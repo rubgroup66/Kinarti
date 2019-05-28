@@ -69,6 +69,11 @@ $(document).ready(function () {
         $("#editDiv :input").prop("disabled", false); // new mode: enable all controls in the form
     });
 
+    $("#saveBTN").on("click", function () {
+        onSubmitFunc();
+    });
+
+
     $("#editDiv").hide();
     //$("#pForm").submit(f2);
 });
@@ -111,6 +116,7 @@ function successGetBoxes(boxesdata) {// this function is activated in case of a 
     for (var i = 0; i < boxesdata.length; i++) {
         $('#boxMeasures').append('<option value="' + boxesdata[i].ID + '" >' + boxesdata[i].Height + 'X' + boxesdata[i].Width + 'X' + boxesdata[i].Depth + '</option>');
     }
+    
 }
 
 function successGetHandles(handlesdata) {// this function is activated in case of a success
@@ -153,9 +159,7 @@ function successGetConstants(constantsdata) {// this function is activated in ca
     //constants = (JSON.stringify(constantsdata));
 }
 
-function success(data) {
-    swal("הפריט נוסף בהצלחה!", "ניתן להמשיך בתמחור של פריטים נוספים", "success");
-}
+
 
 function f2() {
     addItem();
@@ -165,23 +169,13 @@ function f2() {
 var materialCoefficient;
 var totalSum = 0;
 
-function addItem2() {
-    Item = {
-        ProjectID: 9,
-        Type: 1, // 'type' will be always 1 untill we add a different kind of box
-        Cost: $("#cost").val()
-    }
-
-    ajaxCall("POST", "../api/item", JSON.stringify(Item), success, error);
-}
-
-function returnToProject() {
-    parent.location = 'project.html';
+function returnToProjects() {
+    parent.location = 'projectsList.html';
 }
 
 function addItem() {
     Item = {
-        ProjectID: 11,
+        ProjectID: projectID,
         Type: 1, // 'type' will be always 1 untill we add a different kind of box
         Cost: $("#cost").val(),
         Name: $("#itemName").val(),
@@ -450,6 +444,7 @@ function buttonEvents() {
         console.log("change made");
     });
 
+
     $(document).on("click", ".editBtn", function () {
         mode = "edit";
         markSelected(this);
@@ -525,16 +520,11 @@ function buttonEvents() {
     }
 
     ///////////////////////////////////////////////////////////
-    //var projectID;
    
-    //$(document).on("click", ".editItem", function (event) {
-    //    window.location.href = 'editItem.html?projectId=' + projectID + "&itemId=" + event.target.id;
 
 
-    //    $("#itemForm").submit(onSubmitFunc); // wire the submit event to a function called f1
+    //$("#pForm").submit(onSubmitFunc); 
 
-    //    $("#editDiv").hide();
-    //});
 
     // mark the selected row
     function markSelected(btn) {
@@ -549,15 +539,18 @@ function buttonEvents() {
     }
 
     function onSubmitFunc() {
+        console.log("####");
+        console.log(getParameterByName("projectId"));
+        console.log("####");
         var Id = -1;
         //var Image = "car.jpg"; // no image at this point
         if (mode === "edit") {
-            Id = item.Id;
+            Id = item.ID;
             //Image = car.Image; // no image at this point
         }
-
+        console.log(projectID);
         let itemtoSave = {
-            ProjectID: projectID,
+            ProjectID: getParameterByName("projectId"),
             Type: 1, // 'type' will be always 1 untill we add a different kind of box
             Cost: $("#cost").val(),
             Name: $("#itemName").val(),
@@ -586,7 +579,7 @@ function buttonEvents() {
             IronWorksQuantity2: $("#ironWorksQuantity2").val(),
             IronWorksType2ID: $("#ironWorksType2").val(),
             ExtraCostForItem: $("#extraCostForItem").val()
-        }
+        };
 
         // add a new item record to the server
         if (mode === "edit")
@@ -601,8 +594,8 @@ function buttonEvents() {
         item = getItem(itemId);
         $("#Number").val(1);
         $("#Name").val(item.Name);
-        $("#description").val(item.Description);
-        $("#price").val(item.Price);
+        $("#BoxMeasures").val(item.BoxMeasures);
+        $("#Cost").val(item.Cost);
         //$("#image").attr("src", "images/" + item.Image);
     }
 
@@ -610,15 +603,15 @@ function buttonEvents() {
     function clearFields() {
         $("#Number").val("");
         $("#Name").val("");
-        $("#description").val("");
-        $("#price").val("");
+        $("#BoxMeasures").val("");
+        $("#Cost").val("");
       //  $("#image").attr("src", "images/item.jpg");
     }
 
     // get a car according to its Id
     function getItem(id) {
         for (i in items) {
-            if (items[i].Id === id)
+            if (items[i].ID === id)
                 return items[i];
         }
         return null;
@@ -643,7 +636,11 @@ function buttonEvents() {
         $("#editDiv").hide();
         swal("נוסף בהצלחה!", "הפעולה בוצעה", "success");
         mode = "";
-    }
+}
+
+function success(data) {
+    swal("הפריט נוסף בהצלחה!", "ניתן להמשיך בתמחור של פריטים נוספים", "success");
+}
 
     // success callback function after delete
     function deleteSuccess(itemsdata) {
@@ -670,11 +667,16 @@ function buttonEvents() {
         //console.log(itemsdata[i].Cost);
         //totalCost = totalCost + itemsdata[i].Cost;
         //items = itemsdata; 
+
         try {
-            tbl = $('#itemstable').DataTable({
+            tbl = $('#itemsTable').DataTable({
                 data: itemsdata,
                 pageLength: 5,
-                columns: [
+                columns: [                  
+                    { data: "Number" },
+                    { data: "Name" },
+                    { data: "boxMeasures" },//?
+                    { data: "Cost" },
                     {
                         render: function (data, type, row, meta) {
                             let dataItem = "data-itemId='" + row.Id + "'";
@@ -683,12 +685,8 @@ function buttonEvents() {
                             deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + itemsdata + "> מחיקה </button>";
                             return editBtn + viewBtn + deleteBtn;
                         }
-                    },
-                    { data: "Id" },
-                    { data: "Name" },
-                    { data: "Description" },
-                    { data: "Price" }
-                ],
+                    }
+                ]
             });
             buttonEvents();
         }
