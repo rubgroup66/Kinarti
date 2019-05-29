@@ -48,6 +48,16 @@ namespace kinarti.Controllers
             user.Put(u);
             return user;
         }
+
+        [HttpDelete]
+        [Route("api/users/{id}")]
+        public void Delete(string id)
+        {
+            string userID = id;
+            User user = new User();
+            user.DeleteUser(userID);
+        }
+
     }
 
 }
