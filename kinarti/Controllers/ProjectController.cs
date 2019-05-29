@@ -21,7 +21,7 @@ namespace kinarti.Controllers
         {
             proj.insertProject();
         }
-
+        //cc
         [HttpGet]
         [Route("api/proj")]
         public IEnumerable<Project> Get()
