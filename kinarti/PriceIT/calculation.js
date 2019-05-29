@@ -665,6 +665,16 @@ function getItem(id) {
     for (i in myItems) {
         if (myItems[i].ID === id)
             return myItems[i];
+
+
+        //for (i = 0; i < myMaterials.length; i++) {
+        //    if (myMaterials[i].ID.toString() === params.materialID) { // this is the specific material cost
+        //        materialCoefficient = myMaterials[i].Coefficient;
+        //        //console.log("myMaterials: ", myMaterials);
+        //    }
+        //}
+
+
         }
         return null;
     }
@@ -726,9 +736,9 @@ function success(data) {
                 pageLength: 10,
                 columns: [ 
                     //{ data: "Id" },
-                    { data: "Number" },
+                    { data: "ID" },
                     { data: "Name" },
-                    { data: "BoxMeasures" },//?
+                    { data: "BoxMeasuresID" },//?
                     { data: "Cost" },
                     {
                         render: function (data, type, row, meta) {
