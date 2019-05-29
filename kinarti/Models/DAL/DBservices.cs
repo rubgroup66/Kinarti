@@ -8,9 +8,8 @@ using System.Data;
 
 using System.Text;
 using kinarti.Models;
-/// <summary>
-/// DBServices is a class created by me to provides some DataBase Services
-/// </summary>
+
+
 public class DBservices
 {
     public SqlDataAdapter da;
@@ -20,10 +19,6 @@ public class DBservices
     {
         // TODO: Add constructor logic here
     }
-    //internal int insert(Hobbie hobbie)
-    //{
-    //    throw new NotImplementedException();
-    //}
     //--------------------------------------------------------------------------------------------------
     // This method creates a connection to the database according to the connectionString name in the web.config 
     //--------------------------------------------------------------------------------------------------
@@ -37,7 +32,7 @@ public class DBservices
     }
 
     //--------------------------------------------------------------------------------------------------
-    // This method inserts a person to the PersonTbl table 
+    // This method inserts a material to the materials table 
     //--------------------------------------------------------------------------------------------------
     public int insertMaterial(Material material)
     {
@@ -1400,6 +1395,73 @@ public class DBservices
                 lm.Add(item);
             }
             return lm;
+        }
+        catch (Exception ex)
+        {
+            throw (ex); // write to log
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
+    // getting specific item by project
+
+
+    public Item getItem(string conString, string tableName, int projectID, int itemID) {
+        SqlConnection con = null;
+        Item parit = new Item();
+        try
+        {
+            con = connect(conString); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * FROM " + tableName + " WHERE projectID='" + projectID + "' AND id='" + itemID + "'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                Item item = new Item();
+                item.ID = Convert.ToInt32(dr["id"]);
+                item.Name = Convert.ToString(dr["name"]);
+                item.Cost = Convert.ToInt32(dr["cost"]);
+
+                item.ProjectID = Convert.ToInt32(dr["cost"]);
+                item.Type = Convert.ToInt32(dr["cost"]); //will always be 1 until we add open box
+
+                item.BoxMaterialID = Convert.ToInt32(dr["boxMaterialID"]);
+                item.BoxMeasuresID = Convert.ToInt32(dr["boxMeasuresID"]);
+                item.Partitions = Convert.ToInt32(dr["partitions"]);
+                item.Shelves = Convert.ToInt32(dr["shelves"]);
+                item.IsDistanced = Convert.ToInt32(dr["isDistanced"]);
+                item.BoxWoodDrawers = Convert.ToInt32(dr["boxWoodDrawers"]);
+                item.InternalLegraBoxDrawers = Convert.ToInt32(dr["internalLegraBoxDrawers"]);
+                item.ExternalLegraBoxDrawers = Convert.ToInt32(dr["externalLegraBoxDrawers"]);
+                item.InternalScalaBoxDrawers = Convert.ToInt32(dr["internalScalaBoxDrawers"]);
+                item.ExternalScalaBoxDrawers = Convert.ToInt32(dr["externalScalaBoxDrawers"]);
+                item.FacadeMaterialTypeID = Convert.ToInt32(dr["facadeMaterialTypeID"]);
+                item.FacadeTypeID = Convert.ToInt32(dr["facadeTypeID"]);
+                item.HingesQuantity1 = Convert.ToInt32(dr["hingesQuantity1"]);
+                item.HingesType1ID = Convert.ToInt32(dr["hingesType1ID"]);
+                item.HingesQuantity2 = Convert.ToInt32(dr["hingesQuantity2"]);
+                item.HingesType2ID = Convert.ToInt32(dr["hingesType2ID"]);
+                item.ExtraWallQuantity = Convert.ToInt32(dr["extraWallQuantity"]);
+                item.ExtraWallTypeID = Convert.ToInt32(dr["extraWallTypeID"]);
+                item.HandlesQuantity = Convert.ToInt32(dr["handlesQuantity"]);
+                item.HandlesTypeID = Convert.ToInt32(dr["handlesTypeID"]);
+                item.IronWorksQuantity1 = Convert.ToInt32(dr["ironWorksQuantity1"]);
+                item.IronWorksType1ID = Convert.ToInt32(dr["ironWorksType1ID"]);
+                item.IronWorksQuantity2 = Convert.ToInt32(dr["ironWorksQuantity2"]);
+                item.IronWorksType2ID = Convert.ToInt32(dr["ironWorksType2ID"]);
+                item.ExtraCostForItem = Convert.ToInt32(dr["extraCostForItem"]);
+
+                parit = item;
+            }
+            return parit;
         }
         catch (Exception ex)
         {

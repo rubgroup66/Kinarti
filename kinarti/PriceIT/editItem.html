@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
     <link href="cssGeneral.css" rel="stylesheet" />
-
+    <style type="text/css">
+    </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -22,87 +23,16 @@
     <script src="calculation.js"></script>
     <script>
 
+
+
+
         var proj_name = localStorage.getItem("storageProj_name");//לשלוף שם פרויקט
         var box_name = localStorage.getItem("storageBox_name");//לשלוף שם ארגזת
+
         function loadProjectID() {
             document.getElementById("box_name").innerHTML = box_name;
             document.getElementById("project_name").innerHTML = proj_name;
         }
-
-        //get item's ID for reviewing / updating
-        var projectID = localStorage.getItem("itemID");
-        function getID() {
-            document.getElementById("itemName").innerHTML = proj_name;
-        }
-        //שמור שם ארגזת
-        function createItem() {
-            var box_name = $("#item_name").val()
-            localStorage.setItem("storageItem_name", box_name);
-            parent.location = 'insertItem.html';
-        }
-
-        //console.log();
-        //projectID
-       
-        function successGetItems(itemdata) {
-            itemName = itemdata.Name;
-            itemID = itemdata.ID;
-
-            $("#boxMeasures").val(itemdata.boxMeasures);
-
-            $("#boxMaterial").val(itemdata.boxMaterial); // for..
-
-                //myHinges = hingesdata;
-                //for (var i = 0; i < hingesdata.length; i++) {
-                //    $('#hingesType1').append('<option value="' + hingesdata[i].ID + '" >' + hingesdata[i].Type + '</option>');
-                //    $('#hingesType2').append('<option value="' + hingesdata[i].ID + '" >' + hingesdata[i].Type + '</option>');
-                //}
-
-            $("#partitions").val(itemdata.Partitions);
-
-            $("#shelves").val(itemdata.Shelves);
-            $("#isDistanced").val(itemdata.IsDistanced);// for
-            if (itemdata.IsDistanced == 1)
-                $("#radio_1").attr('checked', 'checked');
-            else
-                $("#radio_2").attr('checked', 'checked');
-
-
-            $("#boxWoodDrawers").val(itemdata.BoxWoodDrawers);
-            $("#internalLegraBoxDrawers").val(itemdata.InternalLegraBoxDrawers);
-            $("#externalLegraBoxDrawers").val(itemdata.ExternalLegraBoxDrawers);
-            $("#internalScalaBoxDrawers").val(itemdata.InternalScalaBoxDrawers);
-            $("#externalScalaBoxDrawers").val(itemdata.ExternalScalaBoxDrawers);
-            $("#facadeMaterialType").val(itemdata.FacadeMaterialType); // for
-
-            $("#facadeType").val(itemdata.FacadeID); //for
-
-            $("#hingesQuantity1").val(itemdata.HingesQuantity1);
-            $("#hingesType1").val(itemdata.HingesType1);
-
-            $("#hingesQuantity2").val(itemdata.HingesQuantity2);
-            $("#hingesType2").val(itemdata.HingesType2);//forr
-            $("#extraWallQuantity").val(itemdata.ExtraWallQuantity);
-
-            $("#extraWallType").val(itemdata.ExtraWallType);//forrr
-
-            $("#handlesQuantity").val(itemdata.HandlesQuantity);
-            $("#handlesType").val(itemdata.HandlesType); //forr
-
-            $("#ironWorksQuantity1").val(itemdata.IronWorksQuantity1);
-            $("#ironWorksType1").val(itemdata.IronWorksType1);// forr
-
-            $("#ironWorksQuantity2").val(itemdata.IronWorksQuantity2);
-            $("#ironWorksType2").val(itemdata.IronWorksType2);// forr
-
-            $("#extraCostForItem").val(itemdata.extraCostForItem);
-            $("#extraWallQuantity").val(itemdata.ExtraWallQuantity);
-
-            //$("#image").val(persondata.Image); 
-            //photo = persondata.Image; // maybe extra feature will be photo of the item?
-            //imgSRC = "<img src='../" + photo + "'/>";
-            //document.getElementById("ph").innerHTML = imgSRC;
-        }       
     </script>
 </head>
 <body onload="loadProjectID()">
@@ -112,8 +42,9 @@
                 <a class="navbar-brand" href="#">PriceIT</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="insert.html">הוסף ארגזת</a></li>
-                <li><a href="projectList.html">פרויקטים</a></li>
+                <li><a href="showProjects.html">פרויקטים</a></li>
+                <li><a href="showCustomers.html">לקוחות</a></li>
+                <li><a href="editBoxes.html">עדכון עלויות</a></li>
             </ul>
         </div>
     </nav>
@@ -123,6 +54,7 @@
             <p id="project_name" style="background-color:grey">project name</p>
             <p id="box_name" style="background-color:lightgrey">Box name</p>
             <h1>תמחור ארגזת</h1>
+            <p class="bg-info">תמחור ארגזת</p>
             <br />
             <!--<div class="form-group col-sm-4">
                 <label for="depth"><span class="red-star">★ </span>עומק</label>
@@ -137,10 +69,17 @@
                 <input type="number" class="form-control" id="height" placeholder="אורך (סמ)" min="0" required>
             </div>-->
             <!--<div class="form-group col-sm-9" >-->
+            <!--<div class="form-group" id="addItem">
+                <label for="addItem">סוג פריט ליצירה</label> <br />
+                <input type="radio" name="addItem" value="new" required> פריט חדש<br />
+                <input type="radio" name="addExistingItem" value="existing"> <label for="addExistingItem">שכפול פריט קיים</label>
+                <select id="addItem" required></select>
+            </div>-->
+
             <div class="form-group col-sm-3">
                 <div class="row item">
-                    <div class="form-group col-sm-12" id="itemCost">
-                        <label for="cost"><span class="red-star">★ </span>עלות</label>
+                    <div class="form-group " id="itemCost">
+                        <label for="cost">עלות</label>
                         <input type="number" class="form-control" id="cost" placeholder="0" disabled>
                     </div>
                 </div>
@@ -148,6 +87,19 @@
 
             <div class="form-group col-sm-9">
                 <div class="row item">
+                    <!--<div class="form-group col-sm-6">
+                        <label for="addExistingItem"><span class="red-star">★ </span>שכפול פריט קיים</label>
+                        <select id="addExistingItem" class="form-control"  onblur="calculateItem()" onchange="fillInputs(this)">
+                        </select>
+                    </div>-->
+                    <div class="form-group col-sm-12">
+                        <label for="itemName"><span class="red-star">★ </span>שם / תאור</label>
+                        <input type="text" class="form-control" id="itemName" placeholder="ארגזת" value="ארון מטבח בינוני סטנדרט" min="0" required>
+                    </div>
+
+                </div>
+                <div class="row item">
+
                     <div class="form-group col-sm-6">
                         <label for="boxMaterial"><span class="red-star">★ </span>סוג החומר</label>
                         <select id="boxMaterial" class="form-control" required>
@@ -179,8 +131,8 @@
                         <input type="number" class="form-control" id="boxWoodDrawers" placeholder="הזן מספר מגירות עץ" value="0" min="0" required onblur="calculateItem()">
                     </div>
                 </div>
-
-                <h3>מגירות LegraBox</h3>
+                <p class="bg-info">מגירות LegraBox</p>
+                <!--<h3>מגירות LegraBox</h3>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="internalLegraBoxDrawers"><span class="red-star">★ </span> כמות מגירות LegraBox פנימיות</label>
@@ -191,7 +143,8 @@
                         <input type="number" class="form-control" id="externalLegraBoxDrawers" placeholder="הזן כמות מגירות חיצוניות" min="0" value="0" required onblur="calculateItem()">
                     </div>
                 </div>
-                <h3>מגירות Scala</h3>
+                <p class="bg-info">מגירות Scala</p>
+                <!--<h3>מגירות Scala</h3>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="internalScalaBoxDrawers"><span class="red-star">★ </span> כמות מגירות Scala פנימיות</label>
@@ -211,15 +164,16 @@
                         </select>
                     </div>
                     <div class="form-group col-sm-6">
-                        <label for="facade"><span class="red-star">★ </span>סוג גמר</label>
-                        <select id="facade" class="form-control" required onchange="calculateItem()">
+                        <label for="facadeType"><span class="red-star">★ </span>סוג גמר</label>
+                        <select id="facadeType" class="form-control" required onchange="calculateItem()">
                             <!--<option value="">בחר סוג גמר</option>-->
                             <option value="0">ללא</option>
                         </select>
                     </div>
                 </div>
                 <br />
-                <h2>צירים</h2>
+                <p class="bg-info">צירים</p>
+                <!--<h2>צירים</h2>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="hingesQuantity1"><span class="red-star">★ </span>כמות צירים מסוג 1</label>
@@ -248,7 +202,8 @@
                     </div>
                 </div>
                 <br />
-                <h2>דופן נוסף</h2>
+                <p class="bg-info">דופן נוסף</p>
+                <!--<h2>דופן נוסף</h2>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="extraWallQuantity"><span class="red-star">★ </span>כמות דפנות נוספות</label>
@@ -263,7 +218,8 @@
                     </div>
                 </div>
                 <br />
-                <h2>ידיות</h2>
+                <p class="bg-info">ידיות</p>
+                <!--<h2>ידיות</h2>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="handlesQuantity"><span class="red-star">★ </span>כמות ידיות</label>
@@ -277,7 +233,8 @@
                         </select>
                     </div>
                 </div>
-                <h2>פרזול</h2>
+                <p class="bg-info">פרזול</p>
+                <!--<h2>פרזול</h2>-->
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="ironWorksQuantity1"><span class="red-star">★ </span>כמות פרזולים מסוג 1</label>
@@ -302,6 +259,7 @@
                         </select>
                     </div>
                 </div>
+                <p class="bg-info">כללי</p>
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label for="extraCostForItem"><span class="red-star">★ </span>תוספת מחיר כללית לפריט</label>
@@ -311,16 +269,12 @@
                 <!--</div>-->
                 <br />
                 <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">הוסף פריט</button>
+                <button class="btn btn-primary btn-lg" id="return" onClick="returenToProject()">חזור לפרויקט</button>
                 <br /><br /><br />
             </div>
-            <!--<div class="row">
-                <div class="form-group col-sm-3">
-                    <label for="cost"><span class="red-star">★ </span>עלות</label>
-                    <input type="number" class="form-control" id="cost" placeholder="0" disabled>
-                </div>
-            </div>-->
 
         </form>
+
     </div>
 </body>
 </html>
