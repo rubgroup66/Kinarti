@@ -38,7 +38,6 @@ function getParameterByName(name, url) {
 
 $(document).ready(function () {
 
-
     //load project name
     function loadProjectID() {
         if (localStorage["storageProj_ID"] !== null) {
@@ -50,9 +49,14 @@ $(document).ready(function () {
             console.log(projectID);
         }
     }
-
-
+   
     projectID = getParameterByName("projectId");
+    //projectID = getParameterByName("projectName");
+
+
+
+
+
     console.log(projectID); 
     uri = "../api/items/?projectID=" + projectID;
     ajaxCall("GET", uri, "", successGetItems, error); //get all relevant project's items from DB  
@@ -665,7 +669,6 @@ function getItem(id) {
     for (i in myItems) {
         if (myItems[i].ID === id)
             return myItems[i];
-
 
         //for (i = 0; i < myMaterials.length; i++) {
         //    if (myMaterials[i].ID.toString() === params.materialID) { // this is the specific material cost
