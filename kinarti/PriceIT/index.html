@@ -63,7 +63,7 @@
         }
 
         function successGetUser(data) {
-            if (data.UserType == "Admin" && data.Active == 1) {
+            if (data.UserType == 1 && data.Active == 1) {
                 alert("user found successfully")
                 localStorage.setItem('user', JSON.stringify(data));
                 window.location.href = "ShowCustomers.html";
