@@ -23,6 +23,7 @@ var materialWoodDrawersCoefficient;
 var myFacadeMaterials;
 var itemsdata;
 var extraCostForItem;
+var myItems;
 
 
 function getParameterByName(name, url) {
@@ -36,6 +37,20 @@ function getParameterByName(name, url) {
 }
 
 $(document).ready(function () {
+
+
+    //load project name
+    function loadProjectID() {
+        if (localStorage["storageProj_ID"] !== null) {
+            //var proj_name = localStorage.getItem("storageProj_name");
+            var projectID = JSON.parse(localStorage["storageProj_ID"]);
+            projectID = JSON.parse(localStorage["storageProj_ID"]);
+            document.getElementById("projectID").innerHTML = projectID;
+            // $('#projectName').val(projectName);
+            console.log(projectID);
+        }
+    }
+
 
     projectID = getParameterByName("projectId");
     console.log(projectID); 
@@ -204,7 +219,7 @@ function addItem() {
         IronWorksQuantity2: $("#ironWorksQuantity2").val(),
         IronWorksType2ID: $("#ironWorksType2").val(),
         ExtraCostForItem: $("#extraCostForItem").val()
-    }
+    };
     ajaxCall("POST", "../api/item", JSON.stringify(Item), success, error);
 }
 
@@ -450,6 +465,7 @@ function buttonEvents() {
         markSelected(this);
         $("#editDiv").show();
         $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+
         populateFields(this.getAttribute('data-itemId')); // fill the form fields according to the selected row
     });
 
@@ -481,17 +497,6 @@ function buttonEvents() {
 
     }
 
-    //load project name
-    function loadProjectID() {
-        if (localStorage["storageProj_ID"] !== null) {
-            //var proj_name = localStorage.getItem("storageProj_name");
-            var projectID = JSON.parse(localStorage["storageProj_ID"]);
-            projectID = JSON.parse(localStorage["storageProj_ID"]);
-            document.getElementById("projectID").innerHTML = projectID;
-            // $('#projectName').val(projectName);
-            console.log(projectID);
-        }
-    }
 
     var totalCost;
 
@@ -539,20 +544,18 @@ function buttonEvents() {
     }
 
     function onSubmitFunc() {
-        console.log("####");
-        console.log(getParameterByName("projectId"));
-        console.log("####");
         var Id = -1;
         //var Image = "car.jpg"; // no image at this point
         if (mode === "edit") {
-            Id = item.ID;
+            Id = itemtosave.ID;
             //Image = car.Image; // no image at this point
         }
         console.log(projectID);
         let itemtoSave = {
+
             ProjectID: getParameterByName("projectId"),
             Type: 1, // 'type' will be always 1 untill we add a different kind of box
-            Cost: $("#cost").val(),
+            Cost: $("#itemCost").val(),
             Name: $("#itemName").val(),
             BoxMaterial: $("#boxMaterial").val(),
             BoxMeasures: $("#boxMeasures").val(),
@@ -590,29 +593,78 @@ function buttonEvents() {
     }
 
     // fill the form fields
-    function populateFields(itemId) {
-        item = getItem(itemId);
-        $("#Number").val(1);
-        $("#Name").val(item.Name);
-        $("#BoxMeasures").val(item.BoxMeasures);
-        $("#Cost").val(item.Cost);
+function populateFields(itemId) {
+    item = getItem(itemId);
+
+    console.log(item);
         //$("#image").attr("src", "images/" + item.Image);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    $("#itemCost").val(item.Cost);
+    $("#itemName").val(itemsdata[i].Cost);
+    $("#boxMaterial").val(itemsdata[i].Cost);
+    $("#boxMeasures").val(itemsdata[i].Cost);
+    $("#partitions").val(itemsdata[i].Cost),
+        $("#shelves").val(itemsdata[i].Cost);
+    $("#isDistanced").is(':checked') ? 1 : 0,
+        $("#boxWoodDrawers").val(myItems[i].BoxWoodDrawers);
+    $("#internalLegraBoxDrawers").val(itemsdata[i].InternalLegraBoxDrawers);
+    $("#externalLegraBoxDrawers").val(itemsdata[i].ExternalLegraBoxDrawers);
+    $("#internalScalaBoxDrawers").val(itemsdata[i].InternalScalaBoxDrawers);
+    $("#externalScalaBoxDrawers").val(itemsdata[i].ExternalScalaBoxDrawers);
+    $("#facadeMaterialType").val(itemsdata[i].FacadeMaterialTypeID);
+    $("#facade").val(itemsdata[i].FacadeID);
+    $("#hingesQuantity1").val(itemsdata[i].HingesQuantity1);
+    $("#hingesType1").val(itemsdata[i].HingesType1);
+    $("#hingesQuantity2").val(itemsdata[i].HingesQuantity2);
+    $("#hingesType1").val(itemsdata[i].HingesType1);
+    $("#extraWallQuantity").val(itemsdata[i].ExtraWallQuantity);
+    $("#extraWallType").val(itemsdata[i].ExtraWallTypeID);
+    $("#handlesQuantity").val(itemsdata[i].HandlesQuantity);
+    $("#handlesType").val(itemsdata[i].handlesType);
+    $("#ironWorksQuantity1").val(itemsdata[i].ironWorksQuantity1);
+    $("#ironWorksType1").val(itemsdata[i].ironWorksType1);
+    $("#ironWorksQuantity2").val(itemsdata[i].IronWorksQuantity2);
+    $("#ironWorksType2").val(itemsdata[i].IronWorksType2);
     }
 
     // fill the form fields
     function clearFields() {
-        $("#Number").val("");
-        $("#Name").val("");
-        $("#BoxMeasures").val("");
-        $("#Cost").val("");
+        $("#cost").val(item[i].Cost);
+        $("#itemName").val("");
+        $("#boxMaterial").val("");
+        $("#boxMeasures").val("");
+        $("#partitions").val(""),
+            $("#shelves").val(itemsdata[i].Cost);
+        $("#isDistanced").is(':checked') ? 1 : 0,
+            $("#boxWoodDrawers").val(myItems[i].BoxWoodDrawers);
+        $("#internalLegraBoxDrawers").val(itemsdata[i].InternalLegraBoxDrawers);
+        $("#externalLegraBoxDrawers").val(itemsdata[i].ExternalLegraBoxDrawers);
+        $("#internalScalaBoxDrawers").val(itemsdata[i].InternalScalaBoxDrawers);
+        $("#externalScalaBoxDrawers").val(itemsdata[i].ExternalScalaBoxDrawers);
+        $("#facadeMaterialType").val(itemsdata[i].FacadeMaterialTypeID);
+        $("#facade").val(itemsdata[i].FacadeID);
+        $("#hingesQuantity1").val(itemsdata[i].HingesQuantity1);
+        $("#hingesType1").val(itemsdata[i].HingesType1);
+        $("#hingesQuantity2").val(itemsdata[i].HingesQuantity2);
+        $("#hingesType1").val(itemsdata[i].HingesType1);
+        $("#extraWallQuantity").val(itemsdata[i].ExtraWallQuantity);
+        $("#extraWallType").val(itemsdata[i].ExtraWallTypeID);
+        $("#handlesQuantity").val(itemsdata[i].HandlesQuantity);
+        $("#handlesType").val(itemsdata[i].handlesType);
+        $("#ironWorksQuantity1").val(itemsdata[i].ironWorksQuantity1);
+        $("#ironWorksType1").val(itemsdata[i].ironWorksType1);
+        $("#ironWorksQuantity2").val(itemsdata[i].IronWorksQuantity2);
+        $("#ironWorksType2").val(itemsdata[i].IronWorksType2);
       //  $("#image").attr("src", "images/item.jpg");
     }
 
     // get a car according to its Id
-    function getItem(id) {
-        for (i in items) {
-            if (items[i].ID === id)
-                return items[i];
+function getItem(id) {
+    console.log(myItems);
+    for (i in myItems) {
+        if (myItems[i].ID === id)
+            return myItems[i];
         }
         return null;
     }
@@ -653,7 +705,7 @@ function success(data) {
     }
 
     // redraw a datatable with new data
-    function redrawTable(tbl, data) {
+    function redrawTable(tbl, itemsdata) {
         tbl.clear();
         for (var i = 0; i < data.length; i++) {
             tbl.row.add(data[i]);
@@ -664,25 +716,26 @@ function success(data) {
     // this function is activated in case of a success
     function successGetItems(itemsdata) {
         console.log(itemsdata);
+        myItems = itemsdata;
         //console.log(itemsdata[i].Cost);
         //totalCost = totalCost + itemsdata[i].Cost;
         //items = itemsdata; 
-
         try {
             tbl = $('#itemsTable').DataTable({
                 data: itemsdata,
-                pageLength: 5,
-                columns: [                  
+                pageLength: 10,
+                columns: [ 
+                    //{ data: "Id" },
                     { data: "Number" },
                     { data: "Name" },
-                    { data: "boxMeasures" },//?
+                    { data: "BoxMeasures" },//?
                     { data: "Cost" },
                     {
                         render: function (data, type, row, meta) {
-                            let dataItem = "data-itemId='" + row.Id + "'";
-                            editBtn = "<button type='button' class = 'editBtn btn btn-success' " + itemsdata + "> עריכה </button>";
-                            viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + itemsdata + "> צפייה </button>";
-                            deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + itemsdata + "> מחיקה </button>";
+                            let dataItem = "data-itemId='" + row.ID + "'";
+                            editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataItem + "> עריכה </button>";
+                            viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + dataItem + "> צפייה </button>";
+                            deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataItem + "> מחיקה </button>";
                             return editBtn + viewBtn + deleteBtn;
                         }
                     }

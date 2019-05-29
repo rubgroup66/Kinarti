@@ -35,7 +35,7 @@ namespace kinarti.Controllers
 
         // POST api/values
         [HttpPost]
-        [Route("api/item")]
+        [Route("api/items")]
         public void Post([FromBody]Item p)
         {
             try
@@ -50,7 +50,7 @@ namespace kinarti.Controllers
 
 
         [HttpPut]
-        [Route("api/item")]
+        [Route("api/items")]
         public void Put([FromBody]Item p, int Id)
         {
             p.updateItem(Id);
